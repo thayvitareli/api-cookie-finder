@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
 import { UserRepository } from './repositories/user.repository';
+import { RecipeRepository } from './repositories/recipe.repository';
 
 
 @Module({
-  providers: [PrismaService, UserRepository],
-  exports: [UserRepository]
+  providers: [PrismaService, UserRepository,RecipeRepository],
+  exports: [UserRepository,RecipeRepository]
 })
 export class DatabaseModule {}

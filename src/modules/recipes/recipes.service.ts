@@ -1,11 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe.dto';
+import { RecipeRepository } from 'prisma/repositories/recipe.repository';
 
 @Injectable()
 export class RecipesService {
-  create(createRecipeDto: CreateRecipeDto) {
-    return 'This action adds a new recipe';
+  constructor(private readonly recipeRepository:RecipeRepository){}
+  async create({
+    category_id,
+    ingredients,
+    instructions, 
+    name, 
+    image_uri, 
+    video_uri,
+    userId
+  }: CreateRecipeDto) {
+    const ingredientsParsed = JSON.parse(ingredients);
+
+    return await this.recipeRepository.create({
+category: {connect:{id: category_id}},
+ingredients: ingredientsParsed,
+instructions,
+name,
+image_uri,
+video_uri,
+user: {connect: {id:userId }}
+    })
+   
   }
 
   findAll() {

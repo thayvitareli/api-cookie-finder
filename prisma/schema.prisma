@@ -30,11 +30,12 @@ model user {
 }
 
 model recipe {
-  id          String  @id @default(uuid())
-  name        String  @db.VarChar(255)
-  ingredients String  @db.Text
-  image_uri   String? @db.Text
-  video_uri   String? @db.Text
+  id           String  @id @default(uuid())
+  name         String  @db.VarChar(255)
+  ingredients  Json
+  instructions String  @db.Text
+  image_uri    String? @db.Text
+  video_uri    String? @db.Text
 
   user_id String
   user    user   @relation(fields: [user_id], references: [id])
