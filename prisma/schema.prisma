@@ -21,7 +21,7 @@ model user {
   created_at DateTime @default(now())
 
   recipes          recipe[]
-  favorite_recipes favorite_recipes[]
+  favorite_recipes favorite_recipe[]
 }
 
 model recipe {
@@ -37,12 +37,12 @@ model recipe {
   category_id String
   category    category @relation(fields: [category_id], references: [id])
 
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
-  favorite_recipes favorite_recipes[]
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  favorite_recipes favorite_recipe[]
 }
 
-model favorite_recipes {
+model favorite_recipe {
   recipe_id String
   recipe    recipe @relation(fields: [recipe_id], references: [id])
 
