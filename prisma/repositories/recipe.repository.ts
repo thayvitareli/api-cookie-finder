@@ -12,6 +12,14 @@ export class RecipeRepository {
     });
   }
 
+  async total(where: Prisma.recipeWhereInput) {
+    return this.prisma.recipe.count({where});
+  }
+
+  async findMany({where,skip,take}:{where: Prisma.recipeWhereInput, skip:number, take:number}) {
+    return this.prisma.recipe.findMany({where,skip,take});
+  }
+
   async findOne(where: Prisma.recipeWhereInput): Promise<recipe> {
     return this.prisma.recipe.findFirst({
       where,

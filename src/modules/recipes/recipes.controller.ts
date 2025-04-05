@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Request } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Request, Query } from '@nestjs/common';
 import { RecipesService } from './recipes.service';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe.dto';
+import { FindManySharedDto } from 'src/shared/dto/find-many.dto';
 
 @Controller('recipes')
 export class RecipesController {
@@ -13,8 +14,8 @@ export class RecipesController {
   }
 
   @Get()
-  findAll() {
-    return this.recipesService.findAll();
+  findAll(@Query() query:FindManySharedDto) {
+    return this.recipesService.findAll(query);
   }
 
   @Get(':id')
