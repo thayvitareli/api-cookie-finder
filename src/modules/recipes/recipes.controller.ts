@@ -1,35 +1,31 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Request, Query } from '@nestjs/common';
-import { RecipesService } from './recipes.service';
+
 import { CreateRecipeDto } from './dto/create-recipe.dto';
-import { UpdateRecipeDto } from './dto/update-recipe.dto';
 import { FindManySharedDto } from 'src/shared/dto/find-many.dto';
+import { CreateRecipeUseCase } from './use-cases/create-recipe.use-case';
+import { FindManyRecipeUseCase } from './use-cases/find-many-recipe.use-case';
+import { DeleteRecipeUseCase } from './use-cases/delete-recipe.use-case';
 
 @Controller('recipes')
 export class RecipesController {
-  constructor(private readonly recipesService: RecipesService) {}
+  constructor(private readonly createRecipeUseCase: CreateRecipeUseCase,
+    private readonly findManyRecipeUseCase:FindManyRecipeUseCase,
+     private readonly deleteRecipeUseCase:DeleteRecipeUseCase
+  ) {}
 
   @Post()
   create(@Body() body: CreateRecipeDto, @Request() req) {
-    return this.recipesService.create({...body,userId: req.user.userId});
+
+    return this.createRecipeUseCase.execute({...body,userId: req.user.userId});
   }
 
   @Get()
   findAll(@Query() query:FindManySharedDto) {
-    return this.recipesService.findAll(query);
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.recipesService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRecipeDto: UpdateRecipeDto) {
-    return this.recipesService.update(+id, updateRecipeDto);
+    return this.findManyRecipeUseCase.execute(query);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.recipesService.remove(+id);
+    return this.deleteRecipeUseCase.execute(id);
   }
 }

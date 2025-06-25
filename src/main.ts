@@ -6,6 +6,14 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
+  
   const config = new DocumentBuilder()
   .setTitle('Cookie Finder')
   .setDescription('Cookie finder API')
@@ -16,7 +24,6 @@ async function bootstrap() {
 const documentFactory = () => SwaggerModule.createDocument(app, config);
 SwaggerModule.setup('api', app, documentFactory);
 
-app.useGlobalPipes(new ValidationPipe());
 
   await app.listen(process.env.PORT ?? 8088);
 }

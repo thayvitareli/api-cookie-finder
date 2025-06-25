@@ -3,7 +3,7 @@ import { recipe, Prisma } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma.service';
 
 @Injectable()
-export class RecipeRepository {
+export class RecipeRepository implements IRecipeRepository {
   constructor(private prisma: PrismaService) {}
 
   async create(data: Prisma.recipeCreateInput): Promise<recipe> {
@@ -35,4 +35,31 @@ export class RecipeRepository {
       data,
     });
   }
+
+   async delete(
+    id:string): Promise<recipe> {
+    return this.prisma.recipe.delete({
+      where: {id},
+    });
+  }
+}
+
+
+export interface IRecipeRepository {
+
+   create(data: Prisma.recipeCreateInput): Promise<recipe>
+
+   total(where: Prisma.recipeWhereInput): Promise<number>
+
+   findMany({where,skip,take}:{where: Prisma.recipeWhereInput, skip:number, take:number})
+
+   findOne(where: Prisma.recipeWhereInput): Promise<recipe>
+
+   update(
+    where: Prisma.recipeWhereUniqueInput,
+    data: Prisma.recipeUpdateInput,
+  ): Promise<recipe>
+
+    delete(
+    id:string): Promise<recipe>
 }

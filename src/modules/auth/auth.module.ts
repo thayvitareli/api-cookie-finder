@@ -1,11 +1,12 @@
 
 import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategy/jwt.strategy';
 import { DatabaseModule } from 'prisma/database.module';
 import { AuthController } from './auth.controller';
+import { UserRepository } from 'prisma/repositories/user.repository';
+import { LoginUseCase } from './use-cases/login.use-case';
 
 @Module({
   controllers: [AuthController],
@@ -13,11 +14,15 @@ import { AuthController } from './auth.controller';
     DatabaseModule,
     PassportModule,
     JwtModule.register({
-      secret: process.env.JWT,
+      secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '7d' },
     }),
   ],
-  providers: [AuthService, JwtStrategy],
-  exports: [AuthService],
+  providers: [LoginUseCase, JwtStrategy,
+    {
+      provide: 'IUserRepository',
+      useExisting: UserRepository,
+    }
+  ],
 })
 export class AuthModule {}

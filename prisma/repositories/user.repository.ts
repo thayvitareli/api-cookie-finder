@@ -28,3 +28,16 @@ export class UserRepository {
     });
   }
 }
+
+
+export interface IUserRepository {
+
+  create(data: Prisma.userCreateInput): Promise<user>
+
+   findOne(where: Prisma.userWhereInput): Promise<user>
+
+   update(
+    where: Prisma.userWhereUniqueInput,
+    data: Prisma.userUpdateInput,
+  ): Promise<user> 
+}
