@@ -11,11 +11,12 @@ import { RecipeRepository } from 'prisma/repositories/recipe.repository';
   imports: [DatabaseModule],
   providers: [
     CreateRecipeUseCase,
-FindManyRecipeUseCase,
-DeleteRecipeUseCase,
-{
-  provide: 'IRecipeRepository',
-  useExisting: RecipeRepository
-}],
+    FindManyRecipeUseCase,
+    DeleteRecipeUseCase,
+    {
+      provide: 'IRecipeRepository',
+      useExisting: RecipeRepository,
+    },
+  ],
 })
 export class RecipesModule {}

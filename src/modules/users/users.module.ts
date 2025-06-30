@@ -7,11 +7,12 @@ import { UserRepository } from 'prisma/repositories/user.repository';
 @Module({
   imports: [DatabaseModule],
   controllers: [UsersController],
-  providers: [RegisterUserUseCase,
+  providers: [
+    RegisterUserUseCase,
     {
       provide: 'IUserRepository',
-      useExisting: UserRepository
-    }
+      useExisting: UserRepository,
+    },
   ],
 })
 export class UsersModule {}

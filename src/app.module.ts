@@ -7,11 +7,13 @@ import { JwtAuthGuard } from './modules/auth/guard/jwt-auth.guard';
 import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
-  imports: [DatabaseModule,UsersModule, RecipesModule, AuthModule],
+  imports: [DatabaseModule, UsersModule, RecipesModule, AuthModule],
   controllers: [],
-  providers: [ {
-    provide: APP_GUARD,
-    useClass: JwtAuthGuard,
-  },],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+  ],
 })
 export class AppModule {}

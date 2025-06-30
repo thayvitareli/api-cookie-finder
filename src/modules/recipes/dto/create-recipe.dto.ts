@@ -6,10 +6,9 @@ export class CreateRecipeDto {
   @IsString()
   name: string;
 
-//   @Transform(({value}) => typeof value =='string' ? JSON.parse(value): value)
+  //   @Transform(({value}) => typeof value =='string' ? JSON.parse(value): value)
   @IsNotEmpty()
-//   @IsJSON()
-
+  //   @IsJSON()
   ingredients: string;
 
   @IsNotEmpty()
@@ -28,5 +27,5 @@ export class CreateRecipeDto {
   @IsString()
   category_id: string;
 
-  userId:string;
+  userId: string;
 }

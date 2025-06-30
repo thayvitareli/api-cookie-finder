@@ -5,11 +5,11 @@ import { LoginDto } from './dto/login.dto';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly loginUseCase : LoginUseCase) {}
+  constructor(private readonly loginUseCase: LoginUseCase) {}
 
   @Public()
   @Post('sign-in')
   async login(@Body() body: LoginDto) {
-    return this.loginUseCase.execute(body)
+    return this.loginUseCase.execute(body);
   }
 }

@@ -1,4 +1,3 @@
-
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
@@ -18,11 +17,13 @@ import { LoginUseCase } from './use-cases/login.use-case';
       signOptions: { expiresIn: '7d' },
     }),
   ],
-  providers: [LoginUseCase, JwtStrategy,
+  providers: [
+    LoginUseCase,
+    JwtStrategy,
     {
       provide: 'IUserRepository',
       useExisting: UserRepository,
-    }
+    },
   ],
 })
 export class AuthModule {}

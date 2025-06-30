@@ -1,15 +1,16 @@
-import { IRecipeRepository, RecipeRepository } from "prisma/repositories/recipe.repository";
-import {Inject, Injectable} from '@nestjs/common'
+import {
+  IRecipeRepository,
+  RecipeRepository,
+} from 'prisma/repositories/recipe.repository';
+import { Inject, Injectable } from '@nestjs/common';
 @Injectable()
-export class DeleteRecipeUseCase{
+export class DeleteRecipeUseCase {
+  constructor(
+    @Inject('IRecipeRepository')
+    private readonly recipeRepository: IRecipeRepository,
+  ) {}
 
-
-    constructor(
-        @Inject('IRecipeRepository')
-        private readonly recipeRepository:IRecipeRepository){}
-
-    async execute(id:string){
-        
-        return await this.recipeRepository.delete(id)
-    }
+  async execute(id: string) {
+    return await this.recipeRepository.delete(id);
+  }
 }

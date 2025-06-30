@@ -12,5 +12,4 @@ export class UsersController {
   create(@Body() createUserDto: CreateUserDto) {
     return this.registerUser.execute(createUserDto);
   }
-
 }

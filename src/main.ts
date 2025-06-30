@@ -13,17 +13,16 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
-  
+
   const config = new DocumentBuilder()
-  .setTitle('Cookie Finder')
-  .setDescription('Cookie finder API')
-  .setVersion('1.0')
-  .addTag('')
-  .build();
+    .setTitle('Cookie Finder')
+    .setDescription('Cookie finder API')
+    .setVersion('1.0')
+    .addTag('')
+    .build();
 
-const documentFactory = () => SwaggerModule.createDocument(app, config);
-SwaggerModule.setup('api', app, documentFactory);
-
+  const documentFactory = () => SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, documentFactory);
 
   await app.listen(process.env.PORT ?? 8088);
 }
