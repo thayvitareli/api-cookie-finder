@@ -1,0 +1,17 @@
+# version: '3.9'
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: cookiefinder-postgres-db
+    ports:
+      - "5435:5432"
+    environment:
+      POSTGRES_USER: docker
+      
+      POSTGRES_PASSWORD: docker123
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
+ 
