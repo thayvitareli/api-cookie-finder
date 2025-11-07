@@ -13,14 +13,16 @@ import {
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { FindManySharedDto } from 'src/shared/dto/find-many.dto';
 import { CreateRecipeUseCase } from './use-cases/create-recipe.use-case';
-import { FindManyRecipeUseCase } from './use-cases/find-many-recipe.use-case';
 import { DeleteRecipeUseCase } from './use-cases/delete-recipe.use-case';
+import { Public } from 'src/shared/decorator/public.decorator';
+import { ListRecipesPaginatedUseCase } from './use-cases/list-recipes-paginated.use-case';
+import { ListRecipesPaginatedRequest } from './dto/list-recipes.dto';
 
 @Controller('recipes')
 export class RecipesController {
   constructor(
     private readonly createRecipeUseCase: CreateRecipeUseCase,
-    private readonly findManyRecipeUseCase: FindManyRecipeUseCase,
+    private readonly listRecipesPaginatedUseCase: ListRecipesPaginatedUseCase,
     private readonly deleteRecipeUseCase: DeleteRecipeUseCase,
   ) {}
 
@@ -28,13 +30,15 @@ export class RecipesController {
   create(@Body() body: CreateRecipeDto, @Request() req) {
     return this.createRecipeUseCase.execute({
       ...body,
-      userId: req.user.userId,
+      user_id: req.user.userId,
     });
   }
 
+  @Public()
   @Get()
-  findAll(@Query() query: FindManySharedDto) {
-    return this.findManyRecipeUseCase.execute(query);
+  findAll(@Query() query: ListRecipesPaginatedRequest) {
+    console.log('find all recipes')
+    return this.listRecipesPaginatedUseCase.execute(query);
   }
 
   @Delete(':id')

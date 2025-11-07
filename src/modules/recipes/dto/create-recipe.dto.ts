@@ -1,4 +1,3 @@
-import { Transform } from 'class-transformer';
 import { IsNotEmpty, IsString, IsOptional, IsJSON } from 'class-validator';
 
 export class CreateRecipeDto {
@@ -27,5 +26,5 @@ export class CreateRecipeDto {
   @IsString()
   category_id: string;
 
-  userId: string;
+  user_id: string;
 }
