@@ -1,8 +1,7 @@
-import { RecipeRepository } from 'prisma/repositories/recipe/recipe.repository';
-import { CreateRecipeDto } from '../dto/create-recipe.dto';
 import { Inject, Injectable } from '@nestjs/common';
-import { Recipe } from '../entities/recipe.entity';
 import { IRecipeRepository } from 'src/modules/recipes/domain/repository/recipe.repository.interface';
+import { CreateRecipeDto } from '../presentation/dto/create-recipe.dto';
+import { Recipe } from '../domain/model/recipe.model';
 
 @Injectable()
 export class CreateRecipeUseCase {

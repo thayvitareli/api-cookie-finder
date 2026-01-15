@@ -1,6 +1,6 @@
 import { IRecipeRepository } from 'src/modules/recipes/domain/repository/recipe.repository.interface';
-import { ListRecipesPaginatedRequest } from '../dto/list-recipes.dto';
 import { Inject } from '@nestjs/common';
+import { ListRecipesPaginatedRequest } from '../presentation/dto/list-recipes.dto';
 
 export class ListRecipesPaginatedUseCase {
   constructor(
