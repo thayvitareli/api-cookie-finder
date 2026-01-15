@@ -1,4 +1,4 @@
-import { Recipe } from "src/modules/recipes/entities/recipe.entity";
+import { Recipe } from '../model/recipe.model';
 
 export interface RecipeQuery {
   userId?: string;
@@ -15,5 +15,4 @@ export interface IRecipeRepository {
   delete(id: string): Promise<void>;
   findMany(query: RecipeQuery, skip?: number, take?: number): Promise<Recipe[]>;
   total(query: RecipeQuery): Promise<number>;
-
 }

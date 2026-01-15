@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { RecipesController } from './recipes.controller';
+import { RecipesController } from './presentation/controller/recipes.controller';
 import { DatabaseModule } from 'prisma/database.module';
 import { CreateRecipeUseCase } from './use-cases/create-recipe.use-case';
 import { DeleteRecipeUseCase } from './use-cases/delete-recipe.use-case';

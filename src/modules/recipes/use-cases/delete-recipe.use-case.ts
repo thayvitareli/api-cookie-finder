@@ -1,8 +1,6 @@
-import {
-  RecipeRepository,
-} from 'prisma/repositories/recipe/recipe.repository';
+import { RecipeRepository } from 'prisma/repositories/recipe/recipe.repository';
 import { Inject, Injectable } from '@nestjs/common';
-import { IRecipeRepository } from 'prisma/repositories/recipe/recipe.repository.interface';
+import { IRecipeRepository } from 'src/modules/recipes/domain/repository/recipe.repository.interface';
 
 @Injectable()
 export class DeleteRecipeUseCase {

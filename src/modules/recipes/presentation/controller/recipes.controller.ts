@@ -10,13 +10,12 @@ import {
   Query,
 } from '@nestjs/common';
 
-import { CreateRecipeDto } from './dto/create-recipe.dto';
-import { FindManySharedDto } from 'src/shared/dto/find-many.dto';
-import { CreateRecipeUseCase } from './use-cases/create-recipe.use-case';
-import { DeleteRecipeUseCase } from './use-cases/delete-recipe.use-case';
+import { CreateRecipeUseCase } from '../../use-cases/create-recipe.use-case';
+import { DeleteRecipeUseCase } from '../../use-cases/delete-recipe.use-case';
 import { Public } from 'src/shared/decorator/public.decorator';
-import { ListRecipesPaginatedUseCase } from './use-cases/list-recipes-paginated.use-case';
-import { ListRecipesPaginatedRequest } from './dto/list-recipes.dto';
+import { ListRecipesPaginatedUseCase } from '../../use-cases/list-recipes-paginated.use-case';
+import { ListRecipesPaginatedRequest } from '../dto/list-recipes.dto';
+import { CreateRecipeDto } from '../dto/create-recipe.dto';
 
 @Controller('recipes')
 export class RecipesController {
@@ -37,7 +36,7 @@ export class RecipesController {
   @Public()
   @Get()
   findAll(@Query() query: ListRecipesPaginatedRequest) {
-    console.log('find all recipes')
+    console.log('find all recipes');
     return this.listRecipesPaginatedUseCase.execute(query);
   }
 

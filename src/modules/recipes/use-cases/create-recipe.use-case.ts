@@ -1,10 +1,8 @@
-import {
-  RecipeRepository,
-} from 'prisma/repositories/recipe/recipe.repository';
+import { RecipeRepository } from 'prisma/repositories/recipe/recipe.repository';
 import { CreateRecipeDto } from '../dto/create-recipe.dto';
 import { Inject, Injectable } from '@nestjs/common';
 import { Recipe } from '../entities/recipe.entity';
-import { IRecipeRepository } from 'prisma/repositories/recipe/recipe.repository.interface';
+import { IRecipeRepository } from 'src/modules/recipes/domain/repository/recipe.repository.interface';
 
 @Injectable()
 export class CreateRecipeUseCase {
@@ -14,7 +12,6 @@ export class CreateRecipeUseCase {
   ) {}
 
   async execute(input: CreateRecipeDto) {
-    
     const recipe = new Recipe({
       name: input.name,
       ingredients: input.ingredients,
