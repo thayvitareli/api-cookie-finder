@@ -4,7 +4,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategy/jwt.strategy';
 import { DatabaseModule } from 'prisma/database.module';
 import { AuthController } from './auth.controller';
-import { UserRepository } from 'prisma/repositories/user.repository';
+import { UserRepository } from 'prisma/repositories/user/user.repository';
 import { LoginUseCase } from './use-cases/login.use-case';
 
 @Module({
