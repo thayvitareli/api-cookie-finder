@@ -25,7 +25,8 @@ export class LoginUseCase {
   async validateUser(email: string, pass: string) {
     const user = await this.userRepository.findByEmail(email);
     if (user) {
-      if (bcrypt.compare(pass, user.password)) {
+      const isValidPassword = await bcrypt.compare(pass, user.password);
+      if (isValidPassword) {
         const { password, ...result } = user;
         return result;
       }
