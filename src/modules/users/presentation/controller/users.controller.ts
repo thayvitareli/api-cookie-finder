@@ -1,7 +1,7 @@
 import { Controller, Post, Body } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
 import { Public } from 'src/shared/decorator/public.decorator';
-import { RegisterUserUseCase } from './use-cases/register-user.use-case';
+import { RegisterUserUseCase } from '../../use-cases/register-user.use-case';
+import { CreateUserDto } from '../dto/create-user.dto';
 
 @Controller('users')
 export class UsersController {
