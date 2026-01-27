@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './modules/users/users.module';
 import { RecipesModule } from './modules/recipes/recipes.module';
 import { DatabaseModule } from 'prisma/database.module';
@@ -7,7 +8,13 @@ import { JwtAuthGuard } from './modules/auth/guard/jwt-auth.guard';
 import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
-  imports: [DatabaseModule, UsersModule, RecipesModule, AuthModule],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    DatabaseModule,
+    UsersModule,
+    RecipesModule,
+    AuthModule,
+  ],
   controllers: [],
   providers: [
     {
