@@ -8,7 +8,11 @@ import {
   Delete,
   Request,
   Query,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { memoryStorage } from 'multer';
 
 import { CreateRecipeUseCase } from '../../use-cases/create-recipe.use-case';
 import { DeleteRecipeUseCase } from '../../use-cases/delete-recipe.use-case';
@@ -26,10 +30,16 @@ export class RecipesController {
   ) {}
 
   @Post()
-  create(@Body() body: CreateRecipeDto, @Request() req) {
+  @UseInterceptors(FileInterceptor('file'))
+  create(
+    @Body() body: CreateRecipeDto,
+    @UploadedFile() file: Express.Multer.File,
+    @Request() req,
+  ) {
     return this.createRecipeUseCase.execute({
       ...body,
       user_id: req.user.userId,
+      file,
     });
   }
 
