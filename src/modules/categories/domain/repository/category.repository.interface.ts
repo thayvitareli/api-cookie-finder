@@ -7,6 +7,7 @@ export interface CategoryQuery {
 }
 
 export interface ICategoryRepository {
+  create(category: Category): Promise<void>;
   findMany(query: CategoryQuery, skip?: number, take?: number): Promise<Category[]>;
   total(query: CategoryQuery): Promise<number>;
 }

@@ -11,6 +11,11 @@ import { CategoryRepository } from './repositories/category/category.repository'
     RecipeRepository,
     CategoryRepository,
   ],
-  exports: [UserRepository, RecipeRepository, CategoryRepository],
+  exports: [
+    PrismaService,
+    UserRepository,
+    RecipeRepository,
+    CategoryRepository,
+  ],
 })
 export class DatabaseModule {}

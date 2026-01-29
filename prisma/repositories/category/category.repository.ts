@@ -11,6 +11,15 @@ import { Category } from 'src/modules/categories/domain/model/category.model';
 @Injectable()
 export class CategoryRepository implements ICategoryRepository {
   constructor(private prisma: PrismaService) {}
+
+  async create(category: Category): Promise<void> {
+    await this.prisma.category.create({
+      data: {
+        name: category.name,
+        image_uri: category.image_uri,
+      },
+    });
+  }
   async findMany(
     query: CategoryQuery,
     skip?: number,

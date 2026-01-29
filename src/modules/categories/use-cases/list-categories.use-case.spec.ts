@@ -12,6 +12,7 @@ describe('ListCategoriesUseCase', () => {
   const total = jest.fn().mockResolvedValue(categories.length);
 
   const repository: ICategoryRepository = {
+    create: jest.fn() as any,
     findMany: findMany as any,
     total: total as any,
   };
