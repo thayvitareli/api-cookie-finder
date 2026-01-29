@@ -1,7 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import * as fs from 'fs';
-import * as path from 'path';
-import * as admin from 'firebase-admin';
+import { Storage } from '@google-cloud/storage';
 import {
   IStorageProvider,
   UploadImageInput,
@@ -10,38 +8,26 @@ import {
 
 @Injectable()
 export class GoogleStorageProvider implements IStorageProvider {
+  private readonly storage: Storage;
+  private readonly bucketName: string;
+
+  constructor() {
+    this.bucketName = process.env.GOOGLE_STORAGE_BUCKET ?? '';
+
+    this.storage = new Storage({
+      keyFilename: './src/modules/storage/google-cloud-keys.json',
+      projectId: process.env.GOOGLE_PROJECT_ID,
+    });
+  }
+
   private getBucket() {
-    const storageBucket = process.env.GOOGLE_STORAGE_BUCKET;
-    if (!storageBucket) {
-      throw new Error('GOOGLE_STORAGE_BUCKET is not set');
-    }
-
-    if (!admin.apps.length) {
-      const credentialsPath = process.env.GOOGLE_APPLICATION_CREDENTIALS;
-      const credential = credentialsPath
-        ? admin.credential.cert(
-            JSON.parse(
-              fs.readFileSync(
-                path.isAbsolute(credentialsPath)
-                  ? credentialsPath
-                  : path.resolve(process.cwd(), credentialsPath),
-                'utf8',
-              ),
-            ),
-          )
-        : admin.credential.applicationDefault();
-
-      admin.initializeApp({
-        credential,
-        storageBucket,
-      });
-    }
-
-    return admin.storage().bucket(storageBucket);
+    return this.storage.bucket(this.bucketName);
   }
 
   private buildPath(filename: string, folder?: string) {
-    const safeFolder = folder?.trim() ? folder.trim().replace(/\/+$/g, '') : 'images';
+    const safeFolder = folder?.trim()
+      ? folder.trim().replace(/\/+$/g, '')
+      : 'images';
     const safeName = filename.replace(/\\+/g, '/').split('/').pop() ?? filename;
     return `${safeFolder}/${Date.now()}-${safeName}`;
   }
@@ -56,17 +42,10 @@ export class GoogleStorageProvider implements IStorageProvider {
       contentType: input.contentType ?? 'application/octet-stream',
     });
 
-    if (input.makePublic) {
-      await file.makePublic();
-      return { path, url: file.publicUrl() };
-    }
-
-    const [url] = await file.getSignedUrl({
-      action: 'read',
-      expires: Date.now() + 60 * 60 * 1000,
-    });
-
-    return { path, url };
+    return {
+      path,
+      url: file.publicUrl(),
+    };
   }
 
   async getImageUrl(path: string, expiresInSeconds = 3600): Promise<string> {

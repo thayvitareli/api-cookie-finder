@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import * as admin from 'firebase-admin';
+import { Storage } from '@google-cloud/storage';
 import { GoogleStorageProvider } from './google-storage.provider';
 
 const shouldRun = process.env.RUN_GCS_TESTS === 'true';
@@ -30,6 +30,7 @@ const bucketName = process.env.GOOGLE_STORAGE_BUCKET;
     const signedUrl = await provider.getImageUrl(path, 60);
     expect(signedUrl).toContain('https://');
 
-    await admin.storage().bucket(bucketName).file(path).delete({ ignoreNotFound: true });
+    const storage = new Storage();
+    await storage.bucket(bucketName).file(path).delete({ ignoreNotFound: true });
   });
 });
