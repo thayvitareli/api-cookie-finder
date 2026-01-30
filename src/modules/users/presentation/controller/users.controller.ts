@@ -8,7 +8,7 @@ export class UsersController {
   constructor(private readonly registerUser: RegisterUserUseCase) {}
 
   @Public()
-  @Post()
+  @Post('register')
   create(@Body() createUserDto: CreateUserDto) {
     return this.registerUser.execute(createUserDto);
   }
