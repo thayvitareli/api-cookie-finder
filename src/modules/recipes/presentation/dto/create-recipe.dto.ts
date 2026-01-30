@@ -1,3 +1,4 @@
+import { Transform } from 'class-transformer';
 import { IsNotEmpty, IsString, IsOptional } from 'class-validator';
 import type { Express } from 'express';
 
@@ -6,7 +7,15 @@ export class CreateRecipeDto {
   @IsString()
   name: string;
 
-  //   @Transform(({value}) => typeof value =='string' ? JSON.parse(value): value)
+  @Transform(({ value }) => {
+    if (typeof value !== 'string') return value;
+    try {
+      return JSON.parse(value);
+    } catch {
+      // Allow plain text; Prisma JSON field accepts strings too.
+      return value;
+    }
+  })
   @IsNotEmpty()
   //   @IsJSON()
   ingredients: string;
@@ -14,10 +23,6 @@ export class CreateRecipeDto {
   @IsNotEmpty()
   @IsString()
   instructions: string;
-
-  @IsOptional()
-  @IsString()
-  image_uri?: string;
 
   @IsOptional()
   @IsString()

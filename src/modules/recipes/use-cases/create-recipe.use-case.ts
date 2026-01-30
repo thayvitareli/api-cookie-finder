@@ -14,7 +14,8 @@ export class CreateRecipeUseCase {
   ) {}
 
   async execute(input: CreateRecipeDto) {
-    let imageUri = input.image_uri;
+    let imageUri = '';
+
     if (input.file) {
       const uri = await this.storageProvider.uploadImage({
         buffer: input.file.buffer,
@@ -23,7 +24,8 @@ export class CreateRecipeUseCase {
         folder: 'recipes',
         makePublic: true,
       });
-      imageUri = uri.path;
+
+      imageUri = uri.url;
     }
 
     const recipe = new Recipe({

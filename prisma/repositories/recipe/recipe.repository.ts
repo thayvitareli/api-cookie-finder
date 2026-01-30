@@ -25,8 +25,8 @@ export class RecipeRepository implements IRecipeRepository {
     await this.prisma.recipe.create({
       data: {
         category: { connect: { id: category_id } },
-        ingredients: JSON.parse(ingredients),
-        instructions,
+        ingredients: ingredients,
+        instructions: instructions,
         name,
         image_uri,
         video_uri,
