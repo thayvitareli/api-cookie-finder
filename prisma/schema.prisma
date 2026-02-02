@@ -38,6 +38,8 @@ model recipe {
   instructions Json
   image_uri    String? @db.Text
   video_uri    String? @db.Text
+  servings     Int?
+  prep_time_min Int?
 
   user_id String
   user    user   @relation(fields: [user_id], references: [id])
