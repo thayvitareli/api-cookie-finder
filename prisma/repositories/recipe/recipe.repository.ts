@@ -5,7 +5,11 @@ import {
   IRecipeRepository,
   RecipeQuery,
 } from '../../../src/modules/recipes/domain/repository/recipe.repository.interface';
-import { Recipe } from 'src/modules/recipes/domain/model/recipe.model';
+import {
+  Ingredient,
+  InstructionStep,
+  Recipe,
+} from 'src/modules/recipes/domain/model/recipe.model';
 
 @Injectable()
 export class RecipeRepository implements IRecipeRepository {
@@ -19,17 +23,21 @@ export class RecipeRepository implements IRecipeRepository {
       name,
       image_uri,
       video_uri,
+      servings,
+      prep_time_min,
       user_id,
     } = recipe;
 
     await this.prisma.recipe.create({
       data: {
         category: { connect: { id: category_id } },
-        ingredients: ingredients,
-        instructions: instructions,
+        ingredients: ingredients as Prisma.JsonValue,
+        instructions: instructions as Prisma.JsonValue,
         name,
         image_uri,
         video_uri,
+        servings,
+        prep_time_min,
         user: { connect: { id: user_id } },
       },
     });
@@ -45,7 +53,7 @@ export class RecipeRepository implements IRecipeRepository {
       orderBy: { createdAt: 'desc' },
     });
 
-    return recipes.map((r) => new Recipe(r));
+    return recipes.map((r) => this.toDomain(r));
   }
 
   async total(query: RecipeQuery): Promise<number> {
@@ -55,7 +63,7 @@ export class RecipeRepository implements IRecipeRepository {
 
   async findById(id: string): Promise<Recipe | null> {
     const data = await this.prisma.recipe.findUnique({ where: { id } });
-    return data ? new Recipe(data) : null;
+    return data ? this.toDomain(data) : null;
   }
 
   async findAllByUser(userId: string): Promise<Recipe[]> {
@@ -63,7 +71,7 @@ export class RecipeRepository implements IRecipeRepository {
       where: { user_id: userId },
       orderBy: { createdAt: 'desc' },
     });
-    return recipes.map((r) => new Recipe(r));
+    return recipes.map((r) => this.toDomain(r));
   }
 
   async update(recipe: Recipe): Promise<void> {
@@ -71,10 +79,12 @@ export class RecipeRepository implements IRecipeRepository {
       where: { id: recipe.id },
       data: {
         name: recipe.name,
-        ingredients: recipe.ingredients,
-        instructions: recipe.instructions,
+        ingredients: recipe.ingredients as Prisma.JsonValue,
+        instructions: recipe.instructions as Prisma.JsonValue,
         image_uri: recipe.image_uri,
         video_uri: recipe.video_uri,
+        servings: recipe.servings,
+        prep_time_min: recipe.prep_time_min,
         category_id: recipe.category_id,
       },
     });
@@ -93,5 +103,21 @@ export class RecipeRepository implements IRecipeRepository {
       where.name = { contains: query.nameContains, mode: 'insensitive' };
 
     return where;
+  }
+
+  private toDomain(r: any): Recipe {
+    return new Recipe({
+      id: r.id,
+      name: r.name,
+      ingredients: (r.ingredients ?? []) as unknown as Ingredient[],
+      instructions: (r.instructions ?? []) as unknown as InstructionStep[],
+      image_uri: r.image_uri ?? undefined,
+      video_uri: r.video_uri ?? undefined,
+      servings: r.servings ?? undefined,
+      prep_time_min: r.prep_time_min ?? undefined,
+      user_id: r.user_id,
+      category_id: r.category_id,
+      created_at: r.createdAt,
+    });
   }
 }

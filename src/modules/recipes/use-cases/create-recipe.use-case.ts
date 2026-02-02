@@ -32,6 +32,8 @@ export class CreateRecipeUseCase {
       name: input.name,
       ingredients: input.ingredients,
       instructions: input.instructions,
+      servings: input.servings,
+      prep_time_min: input.prep_time_min,
       user_id: input.user_id,
       category_id: input.category_id,
       image_uri: imageUri,
