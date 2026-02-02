@@ -50,6 +50,14 @@ export class RecipesController {
     return this.listRecipesPaginatedUseCase.execute(query);
   }
 
+  @Get('me')
+  findMine(@Query() query: ListRecipesPaginatedRequest, @Request() req) {
+    return this.listRecipesPaginatedUseCase.execute({
+      ...query,
+      userId: req.user.userId,
+    });
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.deleteRecipeUseCase.execute(id);
