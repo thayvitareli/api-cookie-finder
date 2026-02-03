@@ -101,6 +101,11 @@ export class RecipeRepository implements IRecipeRepository {
     if (query.categoryId) where.category_id = query.categoryId;
     if (query.nameContains)
       where.name = { contains: query.nameContains, mode: 'insensitive' };
+    if (query.favoritedByUserId) {
+      where.favorite_recipes = {
+        some: { user_id: query.favoritedByUserId },
+      };
+    }
 
     return where;
   }

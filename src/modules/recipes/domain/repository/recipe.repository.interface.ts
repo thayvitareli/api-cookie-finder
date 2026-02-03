@@ -5,6 +5,7 @@ export interface RecipeQuery {
   categoryId?: string;
   nameContains?: string;
   isPublic?: boolean;
+  favoritedByUserId?: string;
 }
 
 export interface IRecipeRepository {
