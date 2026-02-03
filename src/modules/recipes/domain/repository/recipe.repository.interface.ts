@@ -16,4 +16,6 @@ export interface IRecipeRepository {
   delete(id: string): Promise<void>;
   findMany(query: RecipeQuery, skip?: number, take?: number): Promise<Recipe[]>;
   total(query: RecipeQuery): Promise<number>;
+  favorite(recipeId: string, userId: string): Promise<void>;
+  unfavorite(recipeId: string, userId: string): Promise<void>;
 }

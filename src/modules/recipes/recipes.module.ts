@@ -7,6 +7,8 @@ import { RecipeRepository } from 'prisma/repositories/recipe/recipe.repository';
 import { ListRecipesPaginatedUseCase } from './use-cases/list-recipes-paginated.use-case';
 import { StorageModule } from '../storage/storage.module';
 import { ListFavoriteRecipesUseCase } from './use-cases/list-favorite-recipes.use-case';
+import { FavoriteRecipeUseCase } from './use-cases/favorite-recipe.use-case';
+import { UnfavoriteRecipeUseCase } from './use-cases/unfavorite-recipe.use-case';
 
 @Module({
   controllers: [RecipesController],
@@ -15,6 +17,8 @@ import { ListFavoriteRecipesUseCase } from './use-cases/list-favorite-recipes.us
     CreateRecipeUseCase,
     ListRecipesPaginatedUseCase,
     ListFavoriteRecipesUseCase,
+    FavoriteRecipeUseCase,
+    UnfavoriteRecipeUseCase,
     DeleteRecipeUseCase,
     {
       provide: 'IRecipeRepository',

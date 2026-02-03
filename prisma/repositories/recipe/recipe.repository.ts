@@ -94,6 +94,31 @@ export class RecipeRepository implements IRecipeRepository {
     await this.prisma.recipe.delete({ where: { id } });
   }
 
+  async favorite(recipeId: string, userId: string): Promise<void> {
+    await this.prisma.favorite_recipe.upsert({
+      where: {
+        recipe_id_user_id: {
+          recipe_id: recipeId,
+          user_id: userId,
+        },
+      },
+      update: {},
+      create: {
+        recipe: { connect: { id: recipeId } },
+        user: { connect: { id: userId } },
+      },
+    });
+  }
+
+  async unfavorite(recipeId: string, userId: string): Promise<void> {
+    await this.prisma.favorite_recipe.deleteMany({
+      where: {
+        recipe_id: recipeId,
+        user_id: userId,
+      },
+    });
+  }
+
   private toPrismaWhere(query: RecipeQuery): Prisma.recipeWhereInput {
     const where: Prisma.recipeWhereInput = {};
 
