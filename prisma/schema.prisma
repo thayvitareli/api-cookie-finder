@@ -29,6 +29,7 @@ model user {
 
   recipes          recipe[]
   favorite_recipes favorite_recipe[]
+  evaluations      recipe_evaluation[]
 }
 
 model recipe {
@@ -41,6 +42,8 @@ model recipe {
   servings     Int?
   prep_time_min Int?
 
+  evaluation_average Float? @default(0)
+
   user_id String
   user    user   @relation(fields: [user_id], references: [id])
 
@@ -50,6 +53,8 @@ model recipe {
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
   favorite_recipes favorite_recipe[]
+
+  evaluations recipe_evaluation[]
 }
 
 model favorite_recipe {
@@ -69,4 +74,15 @@ model category {
 
   createdAt DateTime @default(now())
   recipes   recipe[]
+}
+
+model recipe_evaluation {
+  id        String   @id @default(uuid())
+  stars     Int
+  comment   String   @db.Text
+  user_id   String
+  user      user     @relation(fields: [user_id], references: [id])
+  recipe_id String
+  recipe    recipe   @relation(fields: [recipe_id], references: [id])
+  created_at DateTime @default(now())
 }
