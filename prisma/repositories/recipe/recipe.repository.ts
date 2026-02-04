@@ -119,6 +119,40 @@ export class RecipeRepository implements IRecipeRepository {
     });
   }
 
+  async evaluate(
+    recipeId: string,
+    userId: string,
+    stars: number,
+    comment: string,
+  ): Promise<{ evaluation_average: number }> {
+    const evaluationAverage = await this.prisma.$transaction(async (tx) => {
+      await tx.recipe_evaluation.create({
+        data: {
+          stars,
+          comment,
+          recipe: { connect: { id: recipeId } },
+          user: { connect: { id: userId } },
+        },
+      });
+
+      const aggregate = await tx.recipe_evaluation.aggregate({
+        where: { recipe_id: recipeId },
+        _avg: { stars: true },
+      });
+
+      const average = aggregate._avg.stars ?? 0;
+
+      await tx.recipe.update({
+        where: { id: recipeId },
+        data: { evaluation_average: average },
+      });
+
+      return average;
+    });
+
+    return { evaluation_average: evaluationAverage };
+  }
+
   private toPrismaWhere(query: RecipeQuery): Prisma.recipeWhereInput {
     const where: Prisma.recipeWhereInput = {};
 
