@@ -18,10 +18,12 @@ export interface IRecipeRepository {
   total(query: RecipeQuery): Promise<number>;
   favorite(recipeId: string, userId: string): Promise<void>;
   unfavorite(recipeId: string, userId: string): Promise<void>;
-  evaluate(
+  createEvaluation(
     recipeId: string,
     userId: string,
     stars: number,
     comment: string,
-  ): Promise<{ evaluation_average: number }>;
+  ): Promise<void>;
+  getEvaluationAverage(recipeId: string): Promise<number>;
+  updateEvaluationAverage(recipeId: string, average: number): Promise<void>;
 }

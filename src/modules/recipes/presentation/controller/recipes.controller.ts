@@ -24,6 +24,8 @@ import { ListFavoriteRecipesUseCase } from '../../use-cases/list-favorite-recipe
 import { FavoriteRecipeUseCase } from '../../use-cases/favorite-recipe.use-case';
 import { UnfavoriteRecipeUseCase } from '../../use-cases/unfavorite-recipe.use-case';
 import { FindRecipeByIdUseCase } from '../../use-cases/find-recipe-by-id.use-case';
+import { EvaluateRecipeUseCase } from '../../use-cases/evaluate-recipe.use-case';
+import { EvaluateRecipeDto } from '../dto/evaluate-recipe.dto';
 
 @Controller('recipes')
 export class RecipesController {
@@ -33,6 +35,7 @@ export class RecipesController {
     private readonly listFavoriteRecipesUseCase: ListFavoriteRecipesUseCase,
     private readonly favoriteRecipeUseCase: FavoriteRecipeUseCase,
     private readonly unfavoriteRecipeUseCase: UnfavoriteRecipeUseCase,
+    private readonly evaluateRecipeUseCase: EvaluateRecipeUseCase,
     private readonly deleteRecipeUseCase: DeleteRecipeUseCase,
     private readonly findRecipeByIdUseCase: FindRecipeByIdUseCase,
   ) {}
@@ -84,6 +87,15 @@ export class RecipesController {
   @Delete(':id/favorite')
   unfavorite(@Param('id') id: string, @Request() req) {
     return this.unfavoriteRecipeUseCase.execute(id, req.user.userId);
+  }
+
+  @Post(':id/evaluate')
+  evaluate(
+    @Param('id') id: string,
+    @Body() body: EvaluateRecipeDto,
+    @Request() req,
+  ) {
+    return this.evaluateRecipeUseCase.execute(id, req.user.userId, body);
   }
 
   @Delete(':id')
