@@ -9,6 +9,7 @@ import { StorageModule } from '../storage/storage.module';
 import { ListFavoriteRecipesUseCase } from './use-cases/list-favorite-recipes.use-case';
 import { FavoriteRecipeUseCase } from './use-cases/favorite-recipe.use-case';
 import { UnfavoriteRecipeUseCase } from './use-cases/unfavorite-recipe.use-case';
+import { FindRecipeByIdUseCase } from './use-cases/find-recipe-by-id.use-case';
 
 @Module({
   controllers: [RecipesController],
@@ -20,6 +21,7 @@ import { UnfavoriteRecipeUseCase } from './use-cases/unfavorite-recipe.use-case'
     FavoriteRecipeUseCase,
     UnfavoriteRecipeUseCase,
     DeleteRecipeUseCase,
+    FindRecipeByIdUseCase,
     {
       provide: 'IRecipeRepository',
       useExisting: RecipeRepository,
