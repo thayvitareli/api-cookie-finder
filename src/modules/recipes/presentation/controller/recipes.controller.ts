@@ -23,6 +23,7 @@ import { CreateRecipeDto } from '../dto/create-recipe.dto';
 import { ListFavoriteRecipesUseCase } from '../../use-cases/list-favorite-recipes.use-case';
 import { FavoriteRecipeUseCase } from '../../use-cases/favorite-recipe.use-case';
 import { UnfavoriteRecipeUseCase } from '../../use-cases/unfavorite-recipe.use-case';
+import { FindRecipeByIdUseCase } from '../../use-cases/find-recipe-by-id.use-case';
 
 @Controller('recipes')
 export class RecipesController {
@@ -33,6 +34,7 @@ export class RecipesController {
     private readonly favoriteRecipeUseCase: FavoriteRecipeUseCase,
     private readonly unfavoriteRecipeUseCase: UnfavoriteRecipeUseCase,
     private readonly deleteRecipeUseCase: DeleteRecipeUseCase,
+    private readonly findRecipeByIdUseCase: FindRecipeByIdUseCase,
   ) {}
 
   @Post()
@@ -67,6 +69,11 @@ export class RecipesController {
   @Get('me/favorites')
   findMyFavorites(@Query() query: ListRecipesPaginatedRequest, @Request() req) {
     return this.listFavoriteRecipesUseCase.execute(req.user.userId, query);
+  }
+
+  @Get(':id')
+  getById(@Param('id') id: string) {
+    return this.findRecipeByIdUseCase.execute(id);
   }
 
   @Post(':id/favorite')
