@@ -1,8 +1,7 @@
-import { IsNumber, IsOptional, IsString } from "class-validator";
-import { FindManySharedDto } from "src/shared/dto/find-many.dto";
+import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { FindManySharedDto } from 'src/shared/dto/find-many.dto';
 
-export class ListRecipesPaginatedRequest extends FindManySharedDto{
-
+export class ListRecipesPaginatedRequest extends FindManySharedDto {
   @IsOptional()
   @IsString()
   userId?: string;
@@ -13,6 +12,9 @@ export class ListRecipesPaginatedRequest extends FindManySharedDto{
 
   @IsOptional()
   @IsString()
-  nameContains?: string;
+  categoryCode?: string;
 
+  @IsOptional()
+  @IsString()
+  nameContains?: string;
 }

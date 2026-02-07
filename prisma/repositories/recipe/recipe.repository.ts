@@ -167,6 +167,12 @@ export class RecipeRepository implements IRecipeRepository {
       };
     }
 
+    if (query.categoryCode) {
+      where.category = {
+        code: query.categoryCode,
+      };
+    }
+
     return where;
   }
 
