@@ -30,6 +30,7 @@ export class CreateCategoryUseCase {
     const category = new Category({
       name: input.name,
       image_uri: imageUri ?? '',
+      code: input.code,
     });
 
     await this.categoryRepository.create(category);

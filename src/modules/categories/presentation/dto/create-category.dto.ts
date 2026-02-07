@@ -10,6 +10,10 @@ export class CreateCategoryDto {
   @IsString()
   image_uri?: string;
 
+  @IsNotEmpty()
+  @IsString()
+  code: string;
+
   @IsOptional()
   file?: Express.Multer.File;
 }

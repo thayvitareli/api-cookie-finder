@@ -35,7 +35,11 @@ describe('CreateCategoryUseCase', () => {
       mimetype: 'image/png',
     } as Express.Multer.File;
 
-    const result = await useCase.execute({ name: 'Doces', file });
+    const result = await useCase.execute({
+      name: 'Bolos',
+      file,
+      code: 'cakes',
+    });
 
     expect(uploadImage).toHaveBeenCalledWith({
       buffer: file.buffer,
@@ -47,8 +51,8 @@ describe('CreateCategoryUseCase', () => {
 
     expect(create).toHaveBeenCalledTimes(1);
     const savedCategory = (create.mock.calls[0] as [Category])[0];
-    expect(savedCategory.name).toBe('Doces');
-    expect(savedCategory.image_uri).toBe('categories/img-1');
+    expect(savedCategory.name).toBe('Bolos');
+    expect(savedCategory.code).toBe('cakes');
 
     expect(result).toBeInstanceOf(Category);
   });

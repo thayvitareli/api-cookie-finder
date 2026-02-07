@@ -17,6 +17,7 @@ export class CategoryRepository implements ICategoryRepository {
       data: {
         name: category.name,
         image_uri: category.image_uri,
+        code: category.code,
       },
     });
   }
