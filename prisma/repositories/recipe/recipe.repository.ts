@@ -146,6 +146,14 @@ export class RecipeRepository implements IRecipeRepository {
       skip,
       take,
       orderBy: { created_at: 'desc' },
+      include: {
+        user: {
+          select: {
+            name: true,
+            avatar: true,
+          },
+        },
+      },
     });
 
     return evaluations.map(
@@ -156,6 +164,8 @@ export class RecipeRepository implements IRecipeRepository {
           comment: evaluation.comment,
           user_id: evaluation.user_id,
           recipe_id: evaluation.recipe_id,
+          user_name: evaluation.user?.name ?? undefined,
+          user_avatar: evaluation.user?.avatar ?? undefined,
           created_at: evaluation.created_at,
         }),
     );
