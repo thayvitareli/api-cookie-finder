@@ -11,6 +11,7 @@ import { FavoriteRecipeUseCase } from './use-cases/favorite-recipe.use-case';
 import { UnfavoriteRecipeUseCase } from './use-cases/unfavorite-recipe.use-case';
 import { FindRecipeByIdUseCase } from './use-cases/find-recipe-by-id.use-case';
 import { EvaluateRecipeUseCase } from './use-cases/evaluate-recipe.use-case';
+import { ListRecipeEvaluationsUseCase } from './use-cases/list-recipe-evaluations.use-case';
 
 @Module({
   controllers: [RecipesController],
@@ -22,6 +23,7 @@ import { EvaluateRecipeUseCase } from './use-cases/evaluate-recipe.use-case';
     FavoriteRecipeUseCase,
     UnfavoriteRecipeUseCase,
     EvaluateRecipeUseCase,
+    ListRecipeEvaluationsUseCase,
     DeleteRecipeUseCase,
     FindRecipeByIdUseCase,
     {
