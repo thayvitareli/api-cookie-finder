@@ -1,4 +1,5 @@
 import { Recipe } from '../model/recipe.model';
+import { RecipeEvaluation } from '../model/recipe-evaluation.model';
 
 export interface RecipeQuery {
   userId?: string;
@@ -25,6 +26,12 @@ export interface IRecipeRepository {
     stars: number,
     comment: string,
   ): Promise<void>;
+  findEvaluations(
+    recipeId: string,
+    skip?: number,
+    take?: number,
+  ): Promise<RecipeEvaluation[]>;
+  totalEvaluations(recipeId: string): Promise<number>;
   getEvaluationAverage(recipeId: string): Promise<number>;
   updateEvaluationAverage(recipeId: string, average: number): Promise<void>;
 }

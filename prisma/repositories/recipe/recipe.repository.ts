@@ -10,6 +10,7 @@ import {
   InstructionStep,
   Recipe,
 } from 'src/modules/recipes/domain/model/recipe.model';
+import { RecipeEvaluation } from 'src/modules/recipes/domain/model/recipe-evaluation.model';
 
 @Injectable()
 export class RecipeRepository implements IRecipeRepository {
@@ -132,6 +133,37 @@ export class RecipeRepository implements IRecipeRepository {
         recipe: { connect: { id: recipeId } },
         user: { connect: { id: userId } },
       },
+    });
+  }
+
+  async findEvaluations(
+    recipeId: string,
+    skip = 0,
+    take = 10,
+  ): Promise<RecipeEvaluation[]> {
+    const evaluations = await this.prisma.recipe_evaluation.findMany({
+      where: { recipe_id: recipeId },
+      skip,
+      take,
+      orderBy: { created_at: 'desc' },
+    });
+
+    return evaluations.map(
+      (evaluation) =>
+        new RecipeEvaluation({
+          id: evaluation.id,
+          stars: evaluation.stars,
+          comment: evaluation.comment,
+          user_id: evaluation.user_id,
+          recipe_id: evaluation.recipe_id,
+          created_at: evaluation.created_at,
+        }),
+    );
+  }
+
+  async totalEvaluations(recipeId: string): Promise<number> {
+    return this.prisma.recipe_evaluation.count({
+      where: { recipe_id: recipeId },
     });
   }
 
