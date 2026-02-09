@@ -30,6 +30,8 @@ model user {
   recipes          recipe[]
   favorite_recipes favorite_recipe[]
   evaluations      recipe_evaluation[]
+  following        user_follow[] @relation("user_follow_follower")
+  followers        user_follow[] @relation("user_follow_following")
 }
 
 model recipe {
@@ -86,4 +88,16 @@ model recipe_evaluation {
   recipe_id String
   recipe    recipe   @relation(fields: [recipe_id], references: [id])
   created_at DateTime @default(now())
+}
+
+model user_follow {
+  follower_id  String
+  follower     user   @relation("user_follow_follower", fields: [follower_id], references: [id])
+
+  following_id String
+  following    user   @relation("user_follow_following", fields: [following_id], references: [id])
+
+  created_at DateTime @default(now())
+
+  @@id([follower_id, following_id])
 }
