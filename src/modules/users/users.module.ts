@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from 'prisma/database.module';
+import { FollowUserUseCase } from './use-cases/follow-user.use-case';
 import { RegisterUserUseCase } from './use-cases/register-user.use-case';
+import { UnfollowUserUseCase } from './use-cases/unfollow-user.use-case';
 import { UserRepository } from 'prisma/repositories/user/user.repository';
 import { HashPasswordProvider } from 'src/shared/hash-password-provider/hash-passoword-provider';
 import { UsersController } from './presentation/controller/users.controller';
@@ -10,6 +12,8 @@ import { UsersController } from './presentation/controller/users.controller';
   controllers: [UsersController],
   providers: [
     RegisterUserUseCase,
+    FollowUserUseCase,
+    UnfollowUserUseCase,
     {
       provide: 'IUserRepository',
       useExisting: UserRepository,
