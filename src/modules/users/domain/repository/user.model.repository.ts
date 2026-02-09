@@ -6,4 +6,6 @@ export interface IUserRepository {
   findById(id: string): Promise<User | null>;
   update(user: User): Promise<void>;
   delete(id: string): Promise<void>;
+  follow(followerId: string, followingId: string): Promise<void>;
+  unfollow(followerId: string, followingId: string): Promise<void>;
 }
