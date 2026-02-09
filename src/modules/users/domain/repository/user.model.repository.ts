@@ -8,4 +8,6 @@ export interface IUserRepository {
   delete(id: string): Promise<void>;
   follow(followerId: string, followingId: string): Promise<void>;
   unfollow(followerId: string, followingId: string): Promise<void>;
+  countFollowing(userId: string): Promise<number>;
+  countFollowers(userId: string): Promise<number>;
 }

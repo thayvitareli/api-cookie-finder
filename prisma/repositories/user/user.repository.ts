@@ -75,4 +75,16 @@ export class UserRepository implements IUserRepository {
       },
     });
   }
+
+  async countFollowing(userId: string): Promise<number> {
+    return this.prisma.user_follow.count({
+      where: { follower_id: userId },
+    });
+  }
+
+  async countFollowers(userId: string): Promise<number> {
+    return this.prisma.user_follow.count({
+      where: { following_id: userId },
+    });
+  }
 }
