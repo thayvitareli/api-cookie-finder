@@ -50,4 +50,29 @@ export class UserRepository implements IUserRepository {
       where: { id },
     });
   }
+
+  async follow(followerId: string, followingId: string): Promise<void> {
+    await this.prisma.user_follow.upsert({
+      where: {
+        follower_id_following_id: {
+          follower_id: followerId,
+          following_id: followingId,
+        },
+      },
+      update: {},
+      create: {
+        follower: { connect: { id: followerId } },
+        following: { connect: { id: followingId } },
+      },
+    });
+  }
+
+  async unfollow(followerId: string, followingId: string): Promise<void> {
+    await this.prisma.user_follow.deleteMany({
+      where: {
+        follower_id: followerId,
+        following_id: followingId,
+      },
+    });
+  }
 }
