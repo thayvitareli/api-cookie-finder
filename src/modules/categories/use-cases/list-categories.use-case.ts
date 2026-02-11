@@ -43,6 +43,7 @@ export class ListCategoriesUseCase {
     if (query.userId) filters.userId = query.userId;
     if (query.categoryId) filters.categoryId = query.categoryId;
     if (query.nameContains) filters.nameContains = query.nameContains;
+    if (query.orderBy) filters.orderBy = query.orderBy;
 
     return {
       filters,

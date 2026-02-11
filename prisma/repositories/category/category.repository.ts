@@ -28,14 +28,25 @@ export class CategoryRepository implements ICategoryRepository {
   ): Promise<Category[]> {
     const where: Prisma.categoryWhereInput = this.toPrismaWhere(query);
 
+    const orderBy: Prisma.categoryOrderByWithRelationInput = query.orderBy
+      ? { [query.orderBy]: 'desc' }
+      : { createdAt: 'desc' };
+
     const data = await this.prisma.category.findMany({
       where,
       skip,
       take,
-      orderBy: { createdAt: 'desc' },
+      orderBy,
     });
 
     return data.map((c) => new Category(c));
+  }
+
+  async incrementViews(id: string): Promise<void> {
+    await this.prisma.category.update({
+      where: { id },
+      data: { views: { increment: 1 } },
+    });
   }
 
   async total(query: CategoryQuery): Promise<number> {

@@ -74,6 +74,7 @@ model category {
   name      String @db.VarChar(255)
   image_uri String @db.Text
   code    String @db.VarChar(100) @unique
+  views   Int    @default(0)
 
   createdAt DateTime @default(now())
   recipes   recipe[]

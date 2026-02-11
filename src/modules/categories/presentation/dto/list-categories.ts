@@ -4,6 +4,10 @@ import { FindManySharedDto } from 'src/shared/dto/find-many.dto';
 export class ListCategoriesPaginatedRequest extends FindManySharedDto {
   @IsOptional()
   @IsString()
+  orderBy?: 'createdAt' | 'views';
+
+  @IsOptional()
+  @IsString()
   userId?: string;
 
   @IsOptional()

@@ -19,5 +19,6 @@ import { CreateCategoryUseCase } from './use-cases/create-category.use-case';
       useExisting: CategoryRepository,
     },
   ],
+  exports: ['ICategoryRepository'],
 })
 export class CategoriesModule {}
