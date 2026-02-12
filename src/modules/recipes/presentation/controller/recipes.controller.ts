@@ -77,6 +77,7 @@ export class RecipesController {
     return this.listFavoriteRecipesUseCase.execute(req.user.userId, query);
   }
 
+  @Public()
   @Get(':id')
   getById(@Param('id') id: string) {
     return this.findRecipeByIdUseCase.execute(id);
