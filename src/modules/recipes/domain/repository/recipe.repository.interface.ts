@@ -8,6 +8,8 @@ export interface RecipeQuery {
   isPublic?: boolean;
   favoritedByUserId?: string;
   categoryCode?: string;
+  minCreatedAt?: Date;
+  orderBy?: 'top_rated' | 'newest';
 }
 
 export interface IRecipeRepository {

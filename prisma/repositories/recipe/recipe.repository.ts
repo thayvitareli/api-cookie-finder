@@ -47,11 +47,19 @@ export class RecipeRepository implements IRecipeRepository {
   async findMany(query: RecipeQuery, skip = 0, take = 10): Promise<Recipe[]> {
     const where: Prisma.recipeWhereInput = this.toPrismaWhere(query);
 
+    const orderBy: Prisma.recipeOrderByWithRelationInput = {};
+
+    if (query.orderBy === 'top_rated') {
+      orderBy.evaluation_average = 'desc';
+    } else {
+      orderBy.createdAt = 'desc';
+    }
+
     const recipes = await this.prisma.recipe.findMany({
       where,
       skip,
       take,
-      orderBy: { createdAt: 'desc' },
+      orderBy,
     });
 
     return recipes.map((r) => this.toDomain(r));
@@ -212,6 +220,12 @@ export class RecipeRepository implements IRecipeRepository {
     if (query.categoryCode) {
       where.category = {
         code: query.categoryCode,
+      };
+    }
+
+    if (query.minCreatedAt) {
+      where.createdAt = {
+        gte: query.minCreatedAt,
       };
     }
 

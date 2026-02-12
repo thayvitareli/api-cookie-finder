@@ -17,9 +17,19 @@ export class ListRecipesPaginatedUseCase {
       await this.categoryRepository.incrementViews(query.categoryId);
     }
 
+    const repoQuery: any = { ...query };
+
+    if (query.period === 'weekly') {
+      const now = new Date();
+      now.setDate(now.getDate() - 7);
+      repoQuery.minCreatedAt = now;
+    }
+
+    const { orderBy, ...rest } = repoQuery;
+
     const [recipes, total] = await Promise.all([
-      this.recipeRepository.findMany(query, skip, take),
-      this.recipeRepository.total(query),
+      this.recipeRepository.findMany({ ...rest, minCreatedAt: repoQuery.minCreatedAt, orderBy: query.orderBy }, skip, take),
+      this.recipeRepository.total({ ...rest, minCreatedAt: repoQuery.minCreatedAt }),
     ]);
 
     return {

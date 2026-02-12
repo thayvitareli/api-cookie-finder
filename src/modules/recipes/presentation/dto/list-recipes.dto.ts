@@ -17,4 +17,12 @@ export class ListRecipesPaginatedRequest extends FindManySharedDto {
   @IsOptional()
   @IsString()
   nameContains?: string;
+
+  @IsOptional()
+  @IsString()
+  orderBy?: 'top_rated' | 'newest';
+
+  @IsOptional()
+  @IsString()
+  period?: 'weekly' | 'all_time';
 }
