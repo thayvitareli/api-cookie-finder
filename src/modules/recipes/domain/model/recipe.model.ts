@@ -23,6 +23,7 @@ export class Recipe extends BaseEntity {
   public prep_time_min?: number;
   public user_id: string;
   public category_id: string;
+  public is_favorited?: boolean;
 
   constructor(props: {
     id?: string;
@@ -36,6 +37,7 @@ export class Recipe extends BaseEntity {
     servings?: number;
     prep_time_min?: number;
     created_at?: Date;
+    is_favorited?: boolean;
   }) {
     super({ id: props.id, created_at: props.created_at });
     this.name = props.name;
@@ -47,6 +49,7 @@ export class Recipe extends BaseEntity {
     this.prep_time_min = props.prep_time_min;
     this.user_id = props.user_id;
     this.category_id = props.category_id;
+    this.is_favorited = props.is_favorited;
   }
 
   public updateName(newName: string) {

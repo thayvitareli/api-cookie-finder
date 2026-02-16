@@ -59,17 +59,20 @@ export class RecipesController {
 
   @Public()
   @Get()
-  findAll(@Query() query: ListRecipesPaginatedRequest) {
+  findAll(@Query() query: ListRecipesPaginatedRequest, @Request() req) {
     console.log('find all recipes');
-    return this.listRecipesPaginatedUseCase.execute(query);
+    return this.listRecipesPaginatedUseCase.execute(query, req.user?.userId);
   }
 
   @Get('me')
   findMine(@Query() query: ListRecipesPaginatedRequest, @Request() req) {
-    return this.listRecipesPaginatedUseCase.execute({
-      ...query,
-      userId: req.user.userId,
-    });
+    return this.listRecipesPaginatedUseCase.execute(
+      {
+        ...query,
+        userId: req.user.userId,
+      },
+      req.user.userId,
+    );
   }
 
   @Get('me/favorites')

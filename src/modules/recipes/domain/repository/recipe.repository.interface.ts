@@ -10,6 +10,7 @@ export interface RecipeQuery {
   categoryCode?: string;
   minCreatedAt?: Date;
   orderBy?: 'top_rated' | 'newest';
+  currentUserId?: string;
 }
 
 export interface IRecipeRepository {
@@ -36,4 +37,5 @@ export interface IRecipeRepository {
   totalEvaluations(recipeId: string): Promise<number>;
   getEvaluationAverage(recipeId: string): Promise<number>;
   updateEvaluationAverage(recipeId: string, average: number): Promise<void>;
+  isFavorited(recipeId: string, userId: string): Promise<boolean>;
 }

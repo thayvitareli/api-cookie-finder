@@ -12,7 +12,10 @@ export class ListRecipesPaginatedUseCase {
     private readonly categoryRepository: ICategoryRepository,
   ) {}
 
-  async execute({ skip, take, ...query }: ListRecipesPaginatedRequest) {
+  async execute(
+    { skip, take, ...query }: ListRecipesPaginatedRequest,
+    userId?: string,
+  ) {
     if (query.categoryId) {
       await this.categoryRepository.incrementViews(query.categoryId);
     }
@@ -28,9 +31,20 @@ export class ListRecipesPaginatedUseCase {
     const { orderBy, ...rest } = repoQuery;
 
     const [recipes, total] = await Promise.all([
-      this.recipeRepository.findMany({ ...rest, minCreatedAt: repoQuery.minCreatedAt, orderBy: query.orderBy }, skip, take),
+      this.recipeRepository.findMany(
+        {
+          ...rest,
+          minCreatedAt: repoQuery.minCreatedAt,
+          orderBy: query.orderBy,
+          currentUserId: userId,
+        },
+        skip,
+        take,
+      ),
       this.recipeRepository.total({ ...rest, minCreatedAt: repoQuery.minCreatedAt }),
     ]);
+
+    
 
     return {
       total,

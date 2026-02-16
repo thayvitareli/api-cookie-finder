@@ -60,9 +60,23 @@ export class RecipeRepository implements IRecipeRepository {
       skip,
       take,
       orderBy,
+      include: query.currentUserId
+        ? {
+            favorite_recipes: {
+              where: { user_id: query.currentUserId },
+            },
+          }
+        : undefined,
     });
 
-    return recipes.map((r) => this.toDomain(r));
+    return recipes.map((r) =>
+      this.toDomain({
+        ...r,
+        is_favorited: query.currentUserId
+          ? r.favorite_recipes.length > 0
+          : undefined,
+      }),
+    );
   }
 
   async total(query: RecipeQuery): Promise<number> {
@@ -203,6 +217,19 @@ export class RecipeRepository implements IRecipeRepository {
       data: { evaluation_average: average },
     });
   }
+  
+  async isFavorited(recipeId: string, userId: string): Promise<boolean> {
+    const favorite = await this.prisma.favorite_recipe.findUnique({
+      where: {
+        recipe_id_user_id: {
+          recipe_id: recipeId,
+          user_id: userId,
+        },
+      },
+    });
+
+    return !!favorite;
+  }
 
   private toPrismaWhere(query: RecipeQuery): Prisma.recipeWhereInput {
     const where: Prisma.recipeWhereInput = {};
@@ -245,6 +272,7 @@ export class RecipeRepository implements IRecipeRepository {
       user_id: r.user_id,
       category_id: r.category_id,
       created_at: r.createdAt,
+      is_favorited: r.is_favorited,
     });
   }
 }
