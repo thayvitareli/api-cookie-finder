@@ -7,8 +7,8 @@ import { IUserRepository } from 'src/modules/users/domain/repository/user.model.
 export class UserRepository implements IUserRepository {
   constructor(private prisma: PrismaService) {}
 
-  async create(user: User): Promise<void> {
-    await this.prisma.user.create({
+  async create(user: User): Promise<User> {
+    const data =await this.prisma.user.create({
       data: {
         email: user.email,
         name: user.name,
@@ -16,6 +16,8 @@ export class UserRepository implements IUserRepository {
         password: user.password,
       },
     });
+
+    return new User(data);
   }
 
   async findById(id: string): Promise<User | null> {
