@@ -4,8 +4,18 @@ import { ICategoryRepository } from '../domain/repository/category.repository.in
 
 describe('ListCategoriesUseCase', () => {
   const categories = [
-    new Category({ id: '1', name: 'Doces', image_uri: 'image-1' }),
-    new Category({ id: '2', name: 'Salgados', image_uri: 'image-2' }),
+    new Category({
+      id: '1',
+      name: 'Doces',
+      image_uri: 'image-1',
+      code: 'doces',
+    }),
+    new Category({
+      id: '2',
+      name: 'Salgados',
+      image_uri: 'image-2',
+      code: 'salgados',
+    }),
   ];
 
   const findMany = jest.fn().mockResolvedValue(categories);
@@ -15,6 +25,7 @@ describe('ListCategoriesUseCase', () => {
     create: jest.fn() as any,
     findMany: findMany as any,
     total: total as any,
+    incrementViews: jest.fn() as any,
   };
 
   const useCase = new ListCategoriesUseCase(repository);
