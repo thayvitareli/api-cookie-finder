@@ -78,7 +78,8 @@
     ],
     "rootDir": "src",
     "moduleNameMapper": {
-      "^src/(.*)$": "<rootDir>/$1"
+      "^src/(.*)$": "<rootDir>/$1",
+      "^prisma/(.*)$": "<rootDir>/prisma/$1"
     },
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
@@ -89,5 +90,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  }
+    },
+  "prisma": {
+    "schema": "src/prisma/schema.prisma"
+}
 }

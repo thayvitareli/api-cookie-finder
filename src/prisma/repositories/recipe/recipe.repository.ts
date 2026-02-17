@@ -4,7 +4,7 @@ import { PrismaService } from 'prisma/prisma.service';
 import {
   IRecipeRepository,
   RecipeQuery,
-} from '../../../src/modules/recipes/domain/repository/recipe.repository.interface';
+} from 'src/modules/recipes/domain/repository/recipe.repository.interface';
 import {
   Ingredient,
   InstructionStep,
