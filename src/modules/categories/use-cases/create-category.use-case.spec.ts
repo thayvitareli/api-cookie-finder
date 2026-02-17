@@ -2,7 +2,7 @@ import type { Express } from 'express';
 import { Category } from '../domain/model/category.model';
 import { CreateCategoryUseCase } from './create-category.use-case';
 import { ICategoryRepository } from '../domain/repository/category.repository.interface';
-import { IStorageProvider } from 'src/modules/storage/domain/provider/storage.provider.interface';
+import { IStorageProvider } from '../../storage/domain/provider/storage.provider.interface';
 
 describe('CreateCategoryUseCase', () => {
   const create = jest.fn();
@@ -12,6 +12,7 @@ describe('CreateCategoryUseCase', () => {
     create: create as any,
     findMany: jest.fn() as any,
     total: jest.fn() as any,
+    incrementViews: jest.fn() as any,
   };
 
   const storage: IStorageProvider = {

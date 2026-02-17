@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { IRecipeRepository } from 'src/modules/recipes/domain/repository/recipe.repository.interface';
+import { IRecipeRepository } from '../domain/repository/recipe.repository.interface';
 import { CreateRecipeDto } from '../presentation/dto/create-recipe.dto';
 import { Recipe } from '../domain/model/recipe.model';
-import { IStorageProvider } from 'src/modules/storage/domain/provider/storage.provider.interface';
+import { IStorageProvider } from '../../storage/domain/provider/storage.provider.interface';
 
 @Injectable()
 export class CreateRecipeUseCase {

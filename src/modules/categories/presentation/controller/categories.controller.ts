@@ -7,7 +7,7 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
-import { Public } from 'src/shared/decorator/public.decorator';
+import { Public } from '../../../../shared/decorator/public.decorator';
 import { ListCategoriesPaginatedRequest } from '../dto/list-categories';
 import { ListCategoriesUseCase } from '../../use-cases/list-categories.use-case';
 import { CreateCategoryUseCase } from '../../use-cases/create-category.use-case';

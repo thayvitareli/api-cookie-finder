@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Category } from '../domain/model/category.model';
 import { CreateCategoryDto } from '../presentation/dto/create-category.dto';
 import { ICategoryRepository } from '../domain/repository/category.repository.interface';
-import { IStorageProvider } from 'src/modules/storage/domain/provider/storage.provider.interface';
+import { IStorageProvider } from '../../storage/domain/provider/storage.provider.interface';
 
 @Injectable()
 export class CreateCategoryUseCase {

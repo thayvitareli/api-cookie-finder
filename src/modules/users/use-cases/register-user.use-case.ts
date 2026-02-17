@@ -1,6 +1,6 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
-import errorMessages from 'src/shared/consts/error-messages';
-import { IHashPasswordProvider } from 'src/shared/hash-password-provider/hasy-password-provider.interface';
+import errorMessages from '../../../shared/consts/error-messages';
+import { IHashPasswordProvider } from '../../../shared/hash-password-provider/hasy-password-provider.interface';
 import { IUserRepository } from '../domain/repository/user.model.repository';
 import { User } from '../domain/model/user.model';
 import { CreateUserDto } from '../presentation/dto/create-user.dto';

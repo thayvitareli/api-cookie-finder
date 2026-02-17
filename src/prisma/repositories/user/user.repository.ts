@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
-import { User } from 'src/modules/users/domain/model/user.model';
-import { IUserRepository } from 'src/modules/users/domain/repository/user.model.repository';
+import { User } from '../../../modules/users/domain/model/user.model';
+import { IUserRepository } from '../../../modules/users/domain/repository/user.model.repository';
 
 @Injectable()
 export class UserRepository implements IUserRepository {

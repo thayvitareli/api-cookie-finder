@@ -1,9 +1,9 @@
 import { UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import errorMessages from 'src/shared/consts/error-messages';
+import errorMessages from '../../../shared/consts/error-messages';
 import { LoginUseCase } from './login.use-case';
-import { IUserRepository } from 'src/modules/users/domain/repository/user.model.repository';
+import { IUserRepository } from '../../users/domain/repository/user.model.repository';
 
 jest.mock('bcrypt', () => ({
   compare: jest.fn(),

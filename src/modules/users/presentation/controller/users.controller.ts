@@ -1,5 +1,5 @@
 import { Controller, Post, Body, Get, Param } from '@nestjs/common';
-import { Public } from 'src/shared/decorator/public.decorator';
+import { Public } from '../../../../shared/decorator/public.decorator';
 import { RegisterUserUseCase } from '../../use-cases/register-user.use-case';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { GetUserProfileUseCase } from '../../use-cases/get-user-profile.use-case';

@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { IRecipeRepository } from 'src/modules/recipes/domain/repository/recipe.repository.interface';
+import { IRecipeRepository } from '../domain/repository/recipe.repository.interface';
 import { EvaluateRecipeDto } from '../presentation/dto/evaluate-recipe.dto';
 
 @Injectable()

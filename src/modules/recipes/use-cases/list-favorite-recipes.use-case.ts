@@ -1,5 +1,5 @@
 import { Inject } from '@nestjs/common';
-import { IRecipeRepository } from 'src/modules/recipes/domain/repository/recipe.repository.interface';
+import { IRecipeRepository } from '../domain/repository/recipe.repository.interface';
 import { ListRecipesPaginatedRequest } from '../presentation/dto/list-recipes.dto';
 
 export class ListFavoriteRecipesUseCase {

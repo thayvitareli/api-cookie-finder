@@ -1,9 +1,9 @@
 import { Inject, UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import errorMessages from 'src/shared/consts/error-messages';
+import errorMessages from '../../../shared/consts/error-messages';
 import { LoginDto } from '../dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
-import { IUserRepository } from 'src/modules/users/domain/repository/user.model.repository';
+import { IUserRepository } from '../../users/domain/repository/user.model.repository';
 
 export class LoginUseCase {
   constructor(

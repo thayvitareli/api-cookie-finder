@@ -1,5 +1,5 @@
 import { Body, Controller, Post, UseGuards, Req } from '@nestjs/common';
-import { Public } from 'src/shared/decorator/public.decorator';
+import { Public } from '../../shared/decorator/public.decorator';
 import { LoginUseCase } from './use-cases/login.use-case';
 import { LoginDto } from './dto/login.dto';
 import { GoogleAuthGuard } from './guard/google-auth.guard';

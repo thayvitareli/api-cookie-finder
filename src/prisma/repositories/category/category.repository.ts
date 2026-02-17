@@ -5,8 +5,8 @@ import { PrismaService } from '../../prisma.service';
 import {
   CategoryQuery,
   ICategoryRepository,
-} from 'src/modules/categories/domain/repository/category.repository.interface';
-import { Category } from 'src/modules/categories/domain/model/category.model';
+} from '../../../modules/categories/domain/repository/category.repository.interface';
+import { Category } from '../../../modules/categories/domain/model/category.model';
 
 @Injectable()
 export class CategoryRepository implements ICategoryRepository {

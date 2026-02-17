@@ -4,13 +4,13 @@ import { PrismaService } from '../../prisma.service';
 import {
   IRecipeRepository,
   RecipeQuery,
-} from 'src/modules/recipes/domain/repository/recipe.repository.interface';
+} from '../../../modules/recipes/domain/repository/recipe.repository.interface';
 import {
   Ingredient,
   InstructionStep,
   Recipe,
-} from 'src/modules/recipes/domain/model/recipe.model';
-import { RecipeEvaluation } from 'src/modules/recipes/domain/model/recipe-evaluation.model';
+} from '../../../modules/recipes/domain/model/recipe.model';
+import { RecipeEvaluation } from '../../../modules/recipes/domain/model/recipe-evaluation.model';
 
 @Injectable()
 export class RecipeRepository implements IRecipeRepository {

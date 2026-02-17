@@ -1,4 +1,4 @@
-import { BaseEntity } from 'src/shared/entity/base-entity';
+import { BaseEntity } from '../../../../shared/entity/base-entity';
 
 export type Ingredient = {
   name: string;

@@ -16,7 +16,7 @@ import { memoryStorage } from 'multer';
 
 import { CreateRecipeUseCase } from '../../use-cases/create-recipe.use-case';
 import { DeleteRecipeUseCase } from '../../use-cases/delete-recipe.use-case';
-import { Public } from 'src/shared/decorator/public.decorator';
+import { Public } from '../../../../shared/decorator/public.decorator';
 import { ListRecipesPaginatedUseCase } from '../../use-cases/list-recipes-paginated.use-case';
 import { ListRecipesPaginatedRequest } from '../dto/list-recipes.dto';
 import { CreateRecipeDto } from '../dto/create-recipe.dto';

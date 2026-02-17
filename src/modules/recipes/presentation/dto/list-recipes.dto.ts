@@ -1,5 +1,5 @@
 import { IsNumber, IsOptional, IsString } from 'class-validator';
-import { FindManySharedDto } from 'src/shared/dto/find-many.dto';
+import { FindManySharedDto } from '../../../../shared/dto/find-many.dto';
 
 export class ListRecipesPaginatedRequest extends FindManySharedDto {
   @IsOptional()

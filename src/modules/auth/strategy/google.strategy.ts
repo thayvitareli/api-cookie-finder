@@ -3,8 +3,8 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-custom';
 import { OAuth2Client } from 'google-auth-library';
 import { ConfigService } from '@nestjs/config';
-import { IUserRepository } from 'src/modules/users/domain/repository/user.model.repository';
-import { User } from 'src/modules/users/domain/model/user.model';
+import { IUserRepository } from '../../users/domain/repository/user.model.repository';
+import { User } from '../../users/domain/model/user.model';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
