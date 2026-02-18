@@ -32,6 +32,7 @@ model user {
   evaluations      recipe_evaluation[]
   following        user_follow[] @relation("user_follow_follower")
   followers        user_follow[] @relation("user_follow_following")
+  notifications    notification[]
 }
 
 model recipe {
@@ -101,4 +102,17 @@ model user_follow {
   created_at DateTime @default(now())
 
   @@id([follower_id, following_id])
+}
+
+model notification {
+  id        String   @id @default(uuid())
+  user_id   String
+  title     String
+  message   String
+  link      String
+
+  user      user     @relation(fields: [user_id], references: [id])
+
+  read_at DateTime @default(now())
+  created_at DateTime @default(now())
 }
