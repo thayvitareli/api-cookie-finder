@@ -8,6 +8,7 @@ import { JwtAuthGuard } from './modules/auth/guard/jwt-auth.guard';
 import { AuthModule } from './modules/auth/auth.module';
 import { StorageModule } from './modules/storage/storage.module';
 import { CategoriesModule } from './modules/categories/categories.module';
+import { NotificationsModule } from './modules/notifications/notifications.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { CategoriesModule } from './modules/categories/categories.module';
     AuthModule,
     StorageModule,
     CategoriesModule,
+    NotificationsModule,
   ],
   controllers: [],
   providers: [
