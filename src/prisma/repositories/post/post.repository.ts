@@ -47,4 +47,52 @@ export class PostRepository implements IPostRepository {
       updated_at: data.updated_at,
     });
   }
+
+  async findAll(filters: {
+    skip?: number;
+    take?: number;
+    tag_ids?: string[];
+  }): Promise<{ total: number; records: Post[] }> {
+    const { skip, take, tag_ids } = filters;
+
+    const where = {
+      tags: tag_ids
+        ? {
+            some: {
+              id: {
+                in: tag_ids,
+              },
+            },
+          }
+        : undefined,
+    };
+
+    const [total, data] = await Promise.all([
+      this.prisma.post.count({ where }),
+      this.prisma.post.findMany({
+        where,
+        skip,
+        take,
+        include: { tags: true },
+        orderBy: { created_at: 'desc' },
+      }),
+    ]);
+
+    return {
+      total,
+      records: data.map(
+        (item) =>
+          new Post({
+            id: item.id,
+            title: item.title,
+            content: item.content,
+            image_uri: item.image_uri ?? undefined,
+            user_id: item.user_id,
+            tags: item.tags.map((t) => t.name),
+            created_at: item.created_at,
+            updated_at: item.updated_at,
+          }),
+      ),
+    };
+  }
 }

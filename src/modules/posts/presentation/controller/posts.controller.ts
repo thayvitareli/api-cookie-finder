@@ -1,11 +1,30 @@
-import { Body, Controller, Post, UseGuards, Request, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Body, Controller, Post, Get, Query, UseGuards, Request, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { CreatePostUseCase } from '../../use-cases/create-post.use-case';
+import { ListPostsUseCase } from '../../use-cases/list-posts.use-case';
 import { JwtAuthGuard } from '../../../auth/guard/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('posts')
 export class PostsController {
-  constructor(private createPostUseCase: CreatePostUseCase) {}
+  constructor(
+    private createPostUseCase: CreatePostUseCase,
+    private listPostsUseCase: ListPostsUseCase,
+  ) {}
+
+  @Get()
+  async findAll(
+    @Query('skip') skip?: number,
+    @Query('take') take?: number,
+    @Query('tag_ids') tag_ids?: string | string[],
+  ) {
+    const tagIdsArray = typeof tag_ids === 'string' ? tag_ids.split(',') : tag_ids;
+
+    return this.listPostsUseCase.execute({
+      skip,
+      take,
+      tag_ids: tagIdsArray,
+    });
+  }
 
   @Post()
   @UseGuards(JwtAuthGuard)
