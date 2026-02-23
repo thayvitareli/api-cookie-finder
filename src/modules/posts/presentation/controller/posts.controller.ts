@@ -3,6 +3,7 @@ import { CreatePostUseCase } from '../../use-cases/create-post.use-case';
 import { ListPostsUseCase } from '../../use-cases/list-posts.use-case';
 import { JwtAuthGuard } from '../../../auth/guard/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { CreatePostDto } from '../dto/create-post.dto';
 
 @Controller('posts')
 export class PostsController {
@@ -30,31 +31,25 @@ export class PostsController {
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('file'))
   async create(
-    @Body() body: any,
+    @Body() body: CreatePostDto,
     @Request() req: any,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    const { title, content } = body;
-    let { tags } = body;
+    const { title, content, image_uri, tags } = body;
+    const user_id = req.user.userId;
 
-    if (typeof tags === 'string') {
-      try {
-        tags = JSON.parse(tags);
-      } catch {
-        tags = tags.split(',').map((t: string) => t.trim());
-      }
-    }
-
-    const user_id = req.user.id;
-
-    await this.createPostUseCase.execute({
+    const post = await this.createPostUseCase.execute({
       user_id,
       title,
       content,
       tags,
       file,
+      image_uri,
     });
 
-    return { message: 'Post created successfully' };
+    return { 
+      message: 'Post created successfully',
+      post,
+    };
   }
 }

@@ -7,10 +7,10 @@ import { Post } from '../../../modules/posts/domain/model/post.model';
 export class PostRepository implements IPostRepository {
   constructor(private prisma: PrismaService) {}
 
-  async create(post: Post): Promise<void> {
+  async create(post: Post): Promise<Post> {
     const { title, content, image_uri, user_id, tags } = post;
 
-    await this.prisma.post.create({
+    const data = await this.prisma.post.create({
       data: {
         title,
         content,
@@ -18,13 +18,22 @@ export class PostRepository implements IPostRepository {
         user: { connect: { id: user_id } },
         tags: tags
           ? {
-              connectOrCreate: tags.map((tag) => ({
-                where: { name: tag },
-                create: { name: tag },
-              })),
+              connect: tags.map((id) => ({ id })),
             }
           : undefined,
       },
+      include: { tags: true },
+    });
+
+    return new Post({
+      id: data.id,
+      title: data.title,
+      content: data.content,
+      image_uri: data.image_uri ?? undefined,
+      user_id: data.user_id,
+      tags: data.tags.map((t) => t.name),
+      created_at: data.created_at,
+      updated_at: data.updated_at,
     });
   }
 

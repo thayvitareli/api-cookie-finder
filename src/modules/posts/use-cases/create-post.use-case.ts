@@ -25,7 +25,7 @@ export class CreatePostUseCase {
     private readonly storageProvider: IStorageProvider,
   ) {}
 
-  async execute(request: CreatePostRequest): Promise<void> {
+  async execute(request: CreatePostRequest): Promise<Post> {
     let imageUri = request.image_uri;
 
     if (request.file) {
@@ -47,6 +47,6 @@ export class CreatePostUseCase {
       tags: request.tags,
     });
 
-    await this.postRepository.create(post);
+    return this.postRepository.create(post);
   }
 }

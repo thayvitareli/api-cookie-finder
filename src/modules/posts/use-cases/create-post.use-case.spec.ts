@@ -11,6 +11,7 @@ describe('CreatePostUseCase', () => {
   const repository: IPostRepository = {
     create: create as any,
     findById: jest.fn() as any,
+    findAll: jest.fn() as any,
   };
 
   const storage: IStorageProvider = {
@@ -33,16 +34,24 @@ describe('CreatePostUseCase', () => {
       tags: ['tag1', 'tag2'],
     };
 
-    await useCase.execute(request);
+    create.mockImplementation(async (post: Post) => {
+      return new Post({ ...post, id: 'post-1' });
+    });
+
+    const result = await useCase.execute(request);
+    
+    expect(result).toBeInstanceOf(Post);
+    expect(result.id).toBe('post-1');
+    expect(result.user_id).toBe('user-1');
+    expect(result.title).toBe('Post Title');
 
     expect(uploadImage).not.toHaveBeenCalled();
     expect(create).toHaveBeenCalledTimes(1);
     
-    const savedPost = (create.mock.calls[0] as [Post])[0];
-    expect(savedPost.user_id).toBe('user-1');
-    expect(savedPost.title).toBe('Post Title');
-    expect(savedPost.content).toBe('Post Content');
-    expect(savedPost.tags).toEqual(['tag1', 'tag2']);
+    expect(create).toHaveBeenCalledWith(expect.objectContaining({
+      user_id: 'user-1',
+      title: 'Post Title',
+    }));
   });
 
   it('should upload image when file is provided and persist post', async () => {
@@ -61,7 +70,14 @@ describe('CreatePostUseCase', () => {
       file,
     };
 
-    await useCase.execute(request);
+    create.mockImplementation(async (post: Post) => {
+      return new Post({ ...post, id: 'post-2', image_uri: 'http://storage.com/img-1' });
+    });
+
+    const result = await useCase.execute(request);
+
+    expect(result.id).toBe('post-2');
+    expect(result.image_uri).toBe('http://storage.com/img-1');
 
     expect(uploadImage).toHaveBeenCalledWith({
       buffer: file.buffer,

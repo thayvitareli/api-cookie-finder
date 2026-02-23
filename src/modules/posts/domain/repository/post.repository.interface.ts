@@ -6,7 +6,7 @@ export interface FindAllPostsOutput {
 }
 
 export interface IPostRepository {
-  create(post: Post): Promise<void>;
+  create(post: Post): Promise<Post>;
   findById(id: string): Promise<Post | null>;
   findAll(filters: {
     skip?: number;
