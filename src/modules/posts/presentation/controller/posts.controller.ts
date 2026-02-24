@@ -1,6 +1,7 @@
 import { Body, Controller, Post, Get, Query, UseGuards, Request, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { CreatePostUseCase } from '../../use-cases/create-post.use-case';
 import { ListPostsUseCase } from '../../use-cases/list-posts.use-case';
+import { ListPostTagsUseCase } from '../../use-cases/list-post-tags.use-case';
 import { JwtAuthGuard } from '../../../auth/guard/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreatePostDto } from '../dto/create-post.dto';
@@ -10,7 +11,13 @@ export class PostsController {
   constructor(
     private createPostUseCase: CreatePostUseCase,
     private listPostsUseCase: ListPostsUseCase,
+    private listPostTagsUseCase: ListPostTagsUseCase,
   ) {}
+
+  @Get('tags')
+  async listTags() {
+    return this.listPostTagsUseCase.execute();
+  }
 
   @Get()
   async findAll(

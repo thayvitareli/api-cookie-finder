@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
 import { IPostRepository } from '../../../modules/posts/domain/repository/post.repository.interface';
+import { PostTag } from '../../../modules/posts/domain/model/post-tag.model';
 import { Post } from '../../../modules/posts/domain/model/post.model';
 
 @Injectable()
@@ -100,6 +101,26 @@ export class PostRepository implements IPostRepository {
             tags: item.tags.map((t) => t.name),
             created_at: item.created_at,
             updated_at: item.updated_at,
+          }),
+      ),
+    };
+  }
+
+  async findAllTags(): Promise<{ total: number; records: PostTag[] }> {
+    const [total, data] = await Promise.all([
+      this.prisma.post_tag.count(),
+      this.prisma.post_tag.findMany({
+        orderBy: { name: 'asc' },
+      }),
+    ]);
+
+    return {
+      total,
+      records: data.map(
+        (item) =>
+          new PostTag({
+            id: item.id,
+            name: item.name,
           }),
       ),
     };
