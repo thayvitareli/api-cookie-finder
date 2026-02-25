@@ -22,4 +22,11 @@ export interface IPostRepository {
   }): Promise<FindAllPostsOutput>;
   findAllTags(): Promise<FindAllTagsOutput>;
   createComment(comment: PostComment): Promise<PostComment>;
+  findCommentsByPostId(
+    postId: string,
+    filters: {
+      skip?: number;
+      take?: number;
+    },
+  ): Promise<{ total: number; records: PostComment[] }>;
 }

@@ -151,4 +151,48 @@ export class PostRepository implements IPostRepository {
       created_at: data.created_at,
     });
   }
+
+  async findCommentsByPostId(
+    postId: string,
+    filters: {
+      skip?: number;
+      take?: number;
+    },
+  ): Promise<{ total: number; records: PostComment[] }> {
+    const { skip, take } = filters;
+
+    const where = {
+      post_id: postId,
+    };
+
+    const [total, data] = await Promise.all([
+      this.prisma.post_comment.count({ where }),
+      this.prisma.post_comment.findMany({
+        where,
+        skip,
+        take,
+        include: { user: true },
+        orderBy: { created_at: 'desc' },
+      }),
+    ]);
+
+    return {
+      total,
+      records: data.map(
+        (item) =>
+          new PostComment({
+            id: item.id,
+            content: item.content,
+            post_id: item.post_id,
+            user_id: item.user_id,
+            author: {
+              id: item.user.id,
+              name: item.user.name,
+              avatar: item.user.avatar,
+            },
+            created_at: item.created_at,
+          }),
+      ),
+    };
+  }
 }

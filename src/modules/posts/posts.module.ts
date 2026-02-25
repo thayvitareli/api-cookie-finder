@@ -7,6 +7,7 @@ import { ListPostsUseCase } from './use-cases/list-posts.use-case';
 import { ListPostTagsUseCase } from './use-cases/list-post-tags.use-case';
 import { GetPostByIdUseCase } from './use-cases/get-post-by-id.use-case';
 import { CreatePostCommentUseCase } from './use-cases/create-comment.use-case';
+import { ListPostCommentsUseCase } from './use-cases/list-post-comments.use-case';
 import { PostsController } from './presentation/controller/posts.controller';
 
 @Module({
@@ -18,6 +19,7 @@ import { PostsController } from './presentation/controller/posts.controller';
     ListPostTagsUseCase,
     GetPostByIdUseCase,
     CreatePostCommentUseCase,
+    ListPostCommentsUseCase,
     {
       provide: 'IPostRepository',
       useExisting: PostRepository,

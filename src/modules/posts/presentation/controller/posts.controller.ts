@@ -7,6 +7,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { CreatePostDto } from '../dto/create-post.dto';
 import { GetPostByIdUseCase } from '../../use-cases/get-post-by-id.use-case';
 import { CreatePostCommentUseCase } from '../../use-cases/create-comment.use-case';
+import { ListPostCommentsUseCase } from '../../use-cases/list-post-comments.use-case';
 import { CreatePostCommentDto } from '../dto/create-post-comment.dto';
 import { Public } from '../../../../shared/decorator/public.decorator';
 
@@ -18,6 +19,7 @@ export class PostsController {
     private listPostTagsUseCase: ListPostTagsUseCase,
     private getPostByIdUseCase: GetPostByIdUseCase,
     private createPostCommentUseCase: CreatePostCommentUseCase,
+    private listPostCommentsUseCase: ListPostCommentsUseCase,
   ) {}
 
   @Get('tags')
@@ -92,5 +94,19 @@ export class PostsController {
       message: 'Comment created successfully',
       comment,
     };
+  }
+
+  @Public()
+  @Get(':id/comments')
+  async listComments(
+    @Param('id') id: string,
+    @Query('skip') skip?: number,
+    @Query('take') take?: number,
+  ) {
+    return this.listPostCommentsUseCase.execute({
+      postId: id,
+      skip,
+      take,
+    });
   }
 }
