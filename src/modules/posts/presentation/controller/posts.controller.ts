@@ -6,6 +6,8 @@ import { JwtAuthGuard } from '../../../auth/guard/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreatePostDto } from '../dto/create-post.dto';
 import { GetPostByIdUseCase } from '../../use-cases/get-post-by-id.use-case';
+import { CreatePostCommentUseCase } from '../../use-cases/create-comment.use-case';
+import { CreatePostCommentDto } from '../dto/create-post-comment.dto';
 import { Public } from '../../../../shared/decorator/public.decorator';
 
 @Controller('posts')
@@ -15,6 +17,7 @@ export class PostsController {
     private listPostsUseCase: ListPostsUseCase,
     private listPostTagsUseCase: ListPostTagsUseCase,
     private getPostByIdUseCase: GetPostByIdUseCase,
+    private createPostCommentUseCase: CreatePostCommentUseCase,
   ) {}
 
   @Get('tags')
@@ -66,6 +69,28 @@ export class PostsController {
     return { 
       message: 'Post created successfully',
       post,
+    };
+  }
+
+  @Post(':id/comments')
+  @UseGuards(JwtAuthGuard)
+  async createComment(
+    @Param('id') id: string,
+    @Body() body: CreatePostCommentDto,
+    @Request() req: any,
+  ) {
+    const user_id = req.user.userId;
+    const { content } = body;
+
+    const comment = await this.createPostCommentUseCase.execute({
+      postId: id,
+      userId: user_id,
+      content,
+    });
+
+    return {
+      message: 'Comment created successfully',
+      comment,
     };
   }
 }

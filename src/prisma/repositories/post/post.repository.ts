@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
 import { IPostRepository } from '../../../modules/posts/domain/repository/post.repository.interface';
+import { PostComment } from '../../../modules/posts/domain/model/post-comment.model';
 import { PostTag } from '../../../modules/posts/domain/model/post-tag.model';
 import { Post } from '../../../modules/posts/domain/model/post.model';
 
@@ -129,5 +130,25 @@ export class PostRepository implements IPostRepository {
           }),
       ),
     };
+  }
+
+  async createComment(comment: PostComment): Promise<PostComment> {
+    const { content, post_id, user_id } = comment;
+
+    const data = await this.prisma.post_comment.create({
+      data: {
+        content,
+        post: { connect: { id: post_id } },
+        user: { connect: { id: user_id } },
+      },
+    });
+
+    return new PostComment({
+      id: data.id,
+      content: data.content,
+      post_id: data.post_id,
+      user_id: data.user_id,
+      created_at: data.created_at,
+    });
   }
 }

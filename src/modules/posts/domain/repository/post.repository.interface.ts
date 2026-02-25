@@ -1,3 +1,4 @@
+import { PostComment } from '../model/post-comment.model';
 import { PostTag } from '../model/post-tag.model';
 import { Post } from '../model/post.model';
 
@@ -20,4 +21,5 @@ export interface IPostRepository {
     tag_ids?: string[];
   }): Promise<FindAllPostsOutput>;
   findAllTags(): Promise<FindAllTagsOutput>;
+  createComment(comment: PostComment): Promise<PostComment>;
 }
