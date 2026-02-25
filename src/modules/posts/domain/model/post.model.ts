@@ -8,6 +8,12 @@ export class Post {
   created_at?: Date;
   updated_at?: Date;
 
+  author?: {
+    id: string;
+    name: string;
+    avatar: string | null;
+  };
+
   constructor(props: Post) {
     Object.assign(this, props);
   }

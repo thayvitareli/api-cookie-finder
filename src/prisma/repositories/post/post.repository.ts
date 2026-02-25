@@ -41,7 +41,7 @@ export class PostRepository implements IPostRepository {
   async findById(id: string): Promise<Post | null> {
     const data = await this.prisma.post.findUnique({
       where: { id },
-      include: { tags: true },
+      include: { tags: true, user: true },
     });
 
     if (!data) return null;
@@ -53,6 +53,11 @@ export class PostRepository implements IPostRepository {
       image_uri: data.image_uri ?? undefined,
       user_id: data.user_id,
       tags: data.tags.map((t) => t.name),
+      author: {
+        id: data.user.id,
+        name: data.user.name,
+        avatar: data.user.avatar,
+      },
       created_at: data.created_at,
       updated_at: data.updated_at,
     });

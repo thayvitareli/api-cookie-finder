@@ -1,10 +1,12 @@
-import { Body, Controller, Post, Get, Query, UseGuards, Request, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Body, Controller, Post, Get, Query, UseGuards, Request, UseInterceptors, UploadedFile, Param } from '@nestjs/common';
 import { CreatePostUseCase } from '../../use-cases/create-post.use-case';
 import { ListPostsUseCase } from '../../use-cases/list-posts.use-case';
 import { ListPostTagsUseCase } from '../../use-cases/list-post-tags.use-case';
 import { JwtAuthGuard } from '../../../auth/guard/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreatePostDto } from '../dto/create-post.dto';
+import { GetPostByIdUseCase } from '../../use-cases/get-post-by-id.use-case';
+import { Public } from '../../../../shared/decorator/public.decorator';
 
 @Controller('posts')
 export class PostsController {
@@ -12,6 +14,7 @@ export class PostsController {
     private createPostUseCase: CreatePostUseCase,
     private listPostsUseCase: ListPostsUseCase,
     private listPostTagsUseCase: ListPostTagsUseCase,
+    private getPostByIdUseCase: GetPostByIdUseCase,
   ) {}
 
   @Get('tags')
@@ -32,6 +35,12 @@ export class PostsController {
       take,
       tag_ids: tagIdsArray,
     });
+  }
+
+  @Public()
+  @Get(':id')
+  async findById(@Param('id') id: string) {
+    return this.getPostByIdUseCase.execute(id);
   }
 
   @Post()

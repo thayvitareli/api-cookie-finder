@@ -5,6 +5,7 @@ import { PostRepository } from '../../prisma/repositories/post/post.repository';
 import { CreatePostUseCase } from './use-cases/create-post.use-case';
 import { ListPostsUseCase } from './use-cases/list-posts.use-case';
 import { ListPostTagsUseCase } from './use-cases/list-post-tags.use-case';
+import { GetPostByIdUseCase } from './use-cases/get-post-by-id.use-case';
 import { PostsController } from './presentation/controller/posts.controller';
 
 @Module({
@@ -14,6 +15,7 @@ import { PostsController } from './presentation/controller/posts.controller';
     CreatePostUseCase,
     ListPostsUseCase,
     ListPostTagsUseCase,
+    GetPostByIdUseCase,
     {
       provide: 'IPostRepository',
       useExisting: PostRepository,
