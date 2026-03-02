@@ -5,6 +5,7 @@ export class User extends BaseEntity {
   public email: string;
   public password: string;
   public avatar?: string;
+  public saved_posts?: any[];
 
   constructor(props: {
     id?: string;
@@ -12,6 +13,7 @@ export class User extends BaseEntity {
     email: string;
     password: string;
     avatar?: string;
+    saved_posts?: any[];
     created_at?: Date;
   }) {
     super({ id: props.id, created_at: props.created_at });
@@ -19,6 +21,7 @@ export class User extends BaseEntity {
     this.email = props.email;
     this.password = props.password;
     this.avatar = props.avatar;
+    this.saved_posts = props.saved_posts;
   }
 
   public changePassword(newPassword: string) {

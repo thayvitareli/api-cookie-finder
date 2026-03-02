@@ -5,6 +5,7 @@ export class Post {
   content: string;
   image_uri?: string;
   tags?: string[];
+  saved_posts?: any[];
   created_at?: Date;
   updated_at?: Date;
 

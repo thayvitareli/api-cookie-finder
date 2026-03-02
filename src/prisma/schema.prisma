@@ -35,6 +35,7 @@ model user {
   notifications    notification[]
   posts            post[]
   post_comments    post_comment[]
+  saved_posts      saved_post[]
 }
 
 model recipe {
@@ -134,6 +135,7 @@ model post {
 
   tags     post_tag[]
   comments post_comment[]
+  saved_posts saved_post[]
 }
 
 model post_tag {
@@ -154,4 +156,16 @@ model post_comment {
 
   @@index([post_id])
   @@index([user_id])
+}
+
+model saved_post {
+  post_id String
+  post    post   @relation(fields: [post_id], references: [id])
+
+  user_id String
+  user    user   @relation(fields: [user_id], references: [id])
+
+  created_at DateTime @default(now())
+
+  @@id([post_id, user_id])
 }
