@@ -9,8 +9,8 @@ export class GetPostByIdUseCase {
     private postRepository: IPostRepository,
   ) {}
 
-  async execute(id: string): Promise<Post> {
-    const post = await this.postRepository.findById(id);
+  async execute(id: string, userId?: string): Promise<Post> {
+    const post = await this.postRepository.findById(id, userId);
 
     if (!post) {
       throw new NotFoundException('Post not found');

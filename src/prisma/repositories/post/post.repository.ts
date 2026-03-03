@@ -39,10 +39,14 @@ export class PostRepository implements IPostRepository {
     });
   }
 
-  async findById(id: string): Promise<Post | null> {
+  async findById(id: string, userId?: string): Promise<Post | null> {
     const data = await this.prisma.post.findUnique({
       where: { id },
-      include: { tags: true, user: true },
+      include: {
+        tags: true,
+        user: true,
+        saved_posts: userId ? { where: { user_id: userId } } : false,
+      },
     });
 
     if (!data) return null;
@@ -59,6 +63,7 @@ export class PostRepository implements IPostRepository {
         name: data.user.name,
         avatar: data.user.avatar,
       },
+      is_saved: data.saved_posts ? data.saved_posts.length > 0 : false,
       created_at: data.created_at,
       updated_at: data.updated_at,
     });
@@ -68,8 +73,9 @@ export class PostRepository implements IPostRepository {
     skip?: number;
     take?: number;
     tag_ids?: string[];
+    userId?: string;
   }): Promise<{ total: number; records: Post[] }> {
-    const { skip, take, tag_ids } = filters;
+    const { skip, take, tag_ids, userId } = filters;
 
     const where = {
       tags: tag_ids
@@ -89,7 +95,10 @@ export class PostRepository implements IPostRepository {
         where,
         skip,
         take,
-        include: { tags: true },
+        include: {
+          tags: true,
+          saved_posts: userId ? { where: { user_id: userId } } : false,
+        },
         orderBy: { created_at: 'desc' },
       }),
     ]);
@@ -105,6 +114,7 @@ export class PostRepository implements IPostRepository {
             image_uri: item.image_uri ?? undefined,
             user_id: item.user_id,
             tags: item.tags.map((t) => t.name),
+            is_saved: item.saved_posts ? item.saved_posts.length > 0 : false,
             created_at: item.created_at,
             updated_at: item.updated_at,
           }),

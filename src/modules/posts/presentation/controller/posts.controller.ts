@@ -50,23 +50,27 @@ export class PostsController {
 
   @Get()
   async findAll(
+    @Request() req: any,
     @Query('skip') skip?: number,
     @Query('take') take?: number,
     @Query('tag_ids') tag_ids?: string | string[],
   ) {
     const tagIdsArray = typeof tag_ids === 'string' ? tag_ids.split(',') : tag_ids;
+    const user_id = req.user?.userId;
 
     return this.listPostsUseCase.execute({
       skip,
       take,
       tag_ids: tagIdsArray,
+      user_id,
     });
   }
 
   @Public()
   @Get(':id')
-  async findById(@Param('id') id: string) {
-    return this.getPostByIdUseCase.execute(id);
+  async findById(@Param('id') id: string, @Request() req: any) {
+    const user_id = req.user?.userId;
+    return this.getPostByIdUseCase.execute(id, user_id);
   }
 
   @Post()

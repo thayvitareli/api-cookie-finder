@@ -7,6 +7,7 @@ export interface ListPostsRequest {
   skip?: number;
   take?: number;
   tag_ids?: string[];
+  user_id?: string;
 }
 
 export interface ListPostsResponse {
@@ -28,6 +29,7 @@ export class ListPostsUseCase {
       skip: request.skip !== undefined ? Number(request.skip) : undefined,
       take: request.take !== undefined ? Number(request.take) : undefined,
       tag_ids: request.tag_ids,
+      userId: request.user_id,
     });
 
     const postsWithPublicUrls = await Promise.all(

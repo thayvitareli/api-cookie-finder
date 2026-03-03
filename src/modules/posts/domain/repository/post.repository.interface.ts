@@ -14,11 +14,12 @@ export interface FindAllTagsOutput {
 
 export interface IPostRepository {
   create(post: Post): Promise<Post>;
-  findById(id: string): Promise<Post | null>;
+  findById(id: string, userId?: string): Promise<Post | null>;
   findAll(filters: {
     skip?: number;
     take?: number;
     tag_ids?: string[];
+    userId?: string;
   }): Promise<FindAllPostsOutput>;
   findAllTags(): Promise<FindAllTagsOutput>;
   createComment(comment: PostComment): Promise<PostComment>;
