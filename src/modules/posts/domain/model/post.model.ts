@@ -6,6 +6,7 @@ export class Post {
   image_uri?: string;
   tags?: string[];
   saved_posts?: any[];
+  is_saved?: boolean;
   created_at?: Date;
   updated_at?: Date;
 
