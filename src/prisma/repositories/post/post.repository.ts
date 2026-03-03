@@ -250,4 +250,24 @@ export class PostRepository implements IPostRepository {
       },
     });
   }
+
+  async save(postId: string, userId: string): Promise<void> {
+    await this.prisma.saved_post.create({
+      data: {
+        post_id: postId,
+        user_id: userId,
+      },
+    });
+  }
+
+  async unsave(postId: string, userId: string): Promise<void> {
+    await this.prisma.saved_post.delete({
+      where: {
+        post_id_user_id: {
+          post_id: postId,
+          user_id: userId,
+        },
+      },
+    });
+  }
 }

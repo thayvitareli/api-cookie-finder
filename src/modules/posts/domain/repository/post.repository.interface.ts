@@ -37,4 +37,6 @@ export interface IPostRepository {
     },
   ): Promise<Post[]>;
   countSavedPostsByUserId(userId: string): Promise<number>;
+  save(postId: string, userId: string): Promise<void>;
+  unsave(postId: string, userId: string): Promise<void>;
 }
