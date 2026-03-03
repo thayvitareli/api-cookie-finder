@@ -8,8 +8,10 @@ import { CreatePostDto } from '../dto/create-post.dto';
 import { GetPostByIdUseCase } from '../../use-cases/get-post-by-id.use-case';
 import { CreatePostCommentUseCase } from '../../use-cases/create-comment.use-case';
 import { ListPostCommentsUseCase } from '../../use-cases/list-post-comments.use-case';
+import { ListSavedPostsUseCase } from '../../use-cases/list-saved-posts.use-case';
 import { CreatePostCommentDto } from '../dto/create-post-comment.dto';
 import { Public } from '../../../../shared/decorator/public.decorator';
+import { FindManySharedDto } from 'src/shared/dto/find-many.dto';
 
 @Controller('posts')
 export class PostsController {
@@ -20,7 +22,22 @@ export class PostsController {
     private getPostByIdUseCase: GetPostByIdUseCase,
     private createPostCommentUseCase: CreatePostCommentUseCase,
     private listPostCommentsUseCase: ListPostCommentsUseCase,
+    private listSavedPostsUseCase: ListSavedPostsUseCase,
   ) {}
+
+  @Get('saved')
+  @UseGuards(JwtAuthGuard)
+  async listSaved(
+    @Request() req: any,
+   @Query() query: FindManySharedDto
+  ) {
+    const user_id = req.user.userId;
+
+    return this.listSavedPostsUseCase.execute({
+      user_id,
+      ...query,
+    });
+  }
 
   @Get('tags')
   async listTags() {

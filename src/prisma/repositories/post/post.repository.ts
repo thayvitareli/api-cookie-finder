@@ -195,4 +195,59 @@ export class PostRepository implements IPostRepository {
       ),
     };
   }
+
+  async findSavedPostsByUserId(
+    userId: string,
+    filters: {
+      skip?: number;
+      take?: number;
+    },
+  ): Promise<Post[]> {
+    const { skip, take } = filters;
+
+    const data = await this.prisma.post.findMany({
+      where: {
+        saved_posts: {
+          some: {
+            user_id: userId,
+          },
+        },
+      },
+      skip,
+      take,
+      include: { tags: true, user: true },
+      orderBy: { created_at: 'desc' },
+    });
+
+    return data.map(
+      (item) =>
+        new Post({
+          id: item.id,
+          title: item.title,
+          content: item.content,
+          image_uri: item.image_uri ?? undefined,
+          user_id: item.user_id,
+          tags: item.tags.map((t) => t.name),
+          author: {
+            id: item.user.id,
+            name: item.user.name,
+            avatar: item.user.avatar,
+          },
+          created_at: item.created_at,
+          updated_at: item.updated_at,
+        }),
+    );
+  }
+
+  async countSavedPostsByUserId(userId: string): Promise<number> {
+    return this.prisma.post.count({
+      where: {
+        saved_posts: {
+          some: {
+            user_id: userId,
+          },
+        },
+      },
+    });
+  }
 }

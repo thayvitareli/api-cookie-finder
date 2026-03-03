@@ -29,4 +29,12 @@ export interface IPostRepository {
       take?: number;
     },
   ): Promise<{ total: number; records: PostComment[] }>;
+  findSavedPostsByUserId(
+    userId: string,
+    filters: {
+      skip?: number;
+      take?: number;
+    },
+  ): Promise<Post[]>;
+  countSavedPostsByUserId(userId: string): Promise<number>;
 }
