@@ -10,6 +10,10 @@ describe('ListPostTagsUseCase', () => {
     findById: jest.fn() as any,
     findAll: jest.fn() as any,
     findAllTags: findAllTags as any,
+    createComment: jest.fn() as any,
+    findCommentsByPostId: jest.fn() as any,
+    findSavedPostsByUserId: jest.fn() as any,
+    countSavedPostsByUserId: jest.fn() as any,
   };
 
   const useCase = new ListPostTagsUseCase(repository);

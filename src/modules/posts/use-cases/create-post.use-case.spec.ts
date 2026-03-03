@@ -12,6 +12,11 @@ describe('CreatePostUseCase', () => {
     create: create as any,
     findById: jest.fn() as any,
     findAll: jest.fn() as any,
+    findAllTags: jest.fn() as any,
+    createComment: jest.fn() as any,
+    findCommentsByPostId: jest.fn() as any,
+    findSavedPostsByUserId: jest.fn() as any,
+    countSavedPostsByUserId: jest.fn() as any,
   };
 
   const storage: IStorageProvider = {
