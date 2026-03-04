@@ -97,6 +97,7 @@ export class PostRepository implements IPostRepository {
         take,
         include: {
           tags: true,
+          user: true,
           saved_posts: userId ? { where: { user_id: userId } } : false,
         },
         orderBy: { created_at: 'desc' },
@@ -114,6 +115,11 @@ export class PostRepository implements IPostRepository {
             image_uri: item.image_uri ?? undefined,
             user_id: item.user_id,
             tags: item.tags.map((t) => t.name),
+            author: {
+              id: item.user.id,
+              name: item.user.name,
+              avatar: item.user.avatar,
+            },
             is_saved: item.saved_posts ? item.saved_posts.length > 0 : false,
             created_at: item.created_at,
             updated_at: item.updated_at,

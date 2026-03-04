@@ -13,7 +13,7 @@ import { SavePostUseCase } from '../../use-cases/save-post.use-case';
 import { UnsavePostUseCase } from '../../use-cases/unsave-post.use-case';
 import { CreatePostCommentDto } from '../dto/create-post-comment.dto';
 import { Public } from '../../../../shared/decorator/public.decorator';
-import { FindManySharedDto } from 'src/shared/dto/find-many.dto';
+import { FindManySharedDto } from '../../../../shared/dto/find-many.dto';
 
 @Controller('posts')
 export class PostsController {
@@ -48,6 +48,7 @@ export class PostsController {
     return this.listPostTagsUseCase.execute();
   }
 
+  @Public()
   @Get()
   async findAll(
     @Request() req: any,
