@@ -60,13 +60,22 @@ export class RecipeRepository implements IRecipeRepository {
       skip,
       take,
       orderBy,
-      include: query.currentUserId
-        ? {
-            favorite_recipes: {
+      include: {
+        user: {
+          include: query.currentUserId
+            ? {
+                followers: {
+                  where: { follower_id: query.currentUserId },
+                },
+              }
+            : undefined,
+        },
+        favorite_recipes: query.currentUserId
+          ? {
               where: { user_id: query.currentUserId },
-            },
-          }
-        : undefined,
+            }
+          : undefined,
+      },
     });
 
     return recipes.map((r) =>
@@ -84,15 +93,43 @@ export class RecipeRepository implements IRecipeRepository {
     return this.prisma.recipe.count({ where });
   }
 
-  async findById(id: string): Promise<Recipe | null> {
-    const data = await this.prisma.recipe.findUnique({ where: { id } });
-    return data ? this.toDomain(data) : null;
+  async findById(id: string, currentUserId?: string): Promise<Recipe | null> {
+    const data = await this.prisma.recipe.findUnique({
+      where: { id },
+      include: {
+        user: {
+          include: currentUserId
+            ? {
+                followers: {
+                  where: { follower_id: currentUserId },
+                },
+              }
+            : undefined,
+        },
+        favorite_recipes: currentUserId
+          ? {
+              where: { user_id: currentUserId },
+            }
+          : undefined,
+      },
+    });
+    return data
+      ? this.toDomain({
+          ...data,
+          is_favorited: currentUserId
+            ? data.favorite_recipes.length > 0
+            : undefined,
+        })
+      : null;
   }
 
   async findAllByUser(userId: string): Promise<Recipe[]> {
     const recipes = await this.prisma.recipe.findMany({
       where: { user_id: userId },
       orderBy: { createdAt: 'desc' },
+      include: {
+        user: true,
+      },
     });
     return recipes.map((r) => this.toDomain(r));
   }
@@ -273,6 +310,16 @@ export class RecipeRepository implements IRecipeRepository {
       category_id: r.category_id,
       created_at: r.createdAt,
       is_favorited: r.is_favorited,
+      user: r.user
+        ? {
+            id: r.user.id,
+            name: r.user.name,
+            avatar_uri: r.user.avatar ?? undefined,
+            is_following: r.user.followers
+              ? r.user.followers.length > 0
+              : undefined,
+          }
+        : undefined,
     });
   }
 }
