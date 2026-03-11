@@ -27,7 +27,7 @@ export class AuthController {
       id: user.id,
       name: user.name,
       email: user.email,
-      avatar: user.avatar,
+      avatar_uri: user.avatar,
       access_token: this.jwtService.sign({ userId: user.id }),
     };
   }
