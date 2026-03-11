@@ -12,7 +12,7 @@ export class ListFavoriteRecipesUseCase {
     userId: string,
     { skip, take, ...query }: ListRecipesPaginatedRequest,
   ) {
-    const filters = { ...query, favoritedByUserId: userId };
+    const filters = { ...query, favoritedByUserId: userId, currentUserId: userId };
 
     const [recipes, total] = await Promise.all([
       this.recipeRepository.findMany(filters, skip, take),

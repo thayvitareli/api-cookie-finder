@@ -8,7 +8,7 @@ export class FindRecipeByIdUseCase {
     private readonly recipeRepository: IRecipeRepository,
   ) {}
 
-  async execute(id: string) {
-    return this.recipeRepository.findById(id);
+  async execute(id: string, currentUserId?: string) {
+    return this.recipeRepository.findById(id, currentUserId);
   }
 }

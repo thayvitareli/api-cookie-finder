@@ -82,8 +82,8 @@ export class RecipesController {
 
   @Public()
   @Get(':id')
-  getById(@Param('id') id: string) {
-    return this.findRecipeByIdUseCase.execute(id);
+  getById(@Param('id') id: string, @Request() req) {
+    return this.findRecipeByIdUseCase.execute(id, req.user?.userId);
   }
 
   @Post(':id/favorite')
