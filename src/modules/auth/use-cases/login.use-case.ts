@@ -16,8 +16,10 @@ export class LoginUseCase {
     const user = await this.validateUser(email, password);
 
     return {
+      id: user.id,
       name: user.name,
       email: user.email,
+      avatar_uri: user.avatar,
       access_token: this.jwtService.sign({ userId: user.id }),
     };
   }
