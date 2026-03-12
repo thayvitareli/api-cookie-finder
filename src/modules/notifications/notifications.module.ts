@@ -3,6 +3,7 @@ import { NotificationsController } from './presentation/controller/notifications
 import { ListUserNotificationsUseCase } from './use-cases/list-user-notifications.use-case';
 import { NotificationRepository } from '../../prisma/repositories/notification/notification.repository';
 import { DatabaseModule } from '../../prisma/database.module';
+import { OneSignalNotificationRepository } from './infrastructure/onesignal/onesignal-notification.repository';
 
 @Module({
   imports: [DatabaseModule],
@@ -13,6 +14,14 @@ import { DatabaseModule } from '../../prisma/database.module';
       provide: 'INotificationRepository',
       useExisting: NotificationRepository,
     },
+    {
+      provide: 'IExternalNotificationRepository',
+      useClass: OneSignalNotificationRepository,
+    },
+  ],
+  exports: [
+    'INotificationRepository',
+    'IExternalNotificationRepository',
   ],
 })
 export class NotificationsModule {}
