@@ -10,4 +10,5 @@ export interface IUserRepository {
   unfollow(followerId: string, followingId: string): Promise<void>;
   countFollowing(userId: string): Promise<number>;
   countFollowers(userId: string): Promise<number>;
+  getFollowerIds(userId: string): Promise<string[]>;
 }
