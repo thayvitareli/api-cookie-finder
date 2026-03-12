@@ -1,4 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { InjectQueue } from '@nestjs/bullmq';
+import { Queue } from 'bullmq';
 import { IRecipeRepository } from '../domain/repository/recipe.repository.interface';
 import { CreateRecipeDto } from '../presentation/dto/create-recipe.dto';
 import { Recipe } from '../domain/model/recipe.model';
@@ -11,6 +13,8 @@ export class CreateRecipeUseCase {
     private readonly recipeRepository: IRecipeRepository,
     @Inject('IStorageProvider')
     private readonly storageProvider: IStorageProvider,
+    @InjectQueue('recipe-notifications')
+    private readonly notificationQueue: Queue,
   ) {}
 
   async execute(input: CreateRecipeDto) {
@@ -39,6 +43,15 @@ export class CreateRecipeUseCase {
       image_uri: imageUri,
     });
 
-    return await this.recipeRepository.create(recipe);
+    await this.recipeRepository.create(recipe);
+
+    await this.notificationQueue.add('new-recipe', {
+      recipeId: recipe.id,
+      recipeName: recipe.name,
+      authorId: recipe.user_id,
+    });
+
+    return recipe;
   }
 }
+
