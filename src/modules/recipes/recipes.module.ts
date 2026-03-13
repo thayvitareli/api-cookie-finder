@@ -16,9 +16,8 @@ import { EvaluateRecipeUseCase } from './use-cases/evaluate-recipe.use-case';
 import { ListRecipeEvaluationsUseCase } from './use-cases/list-recipe-evaluations.use-case';
 import { RecipeNotificationProcessor } from './jobs/recipe-notification.processor';
 import { NotificationsModule } from '../notifications/notifications.module';
-import { UserRepository } from 'prisma/repositories/user/user.repository';
-import { NotificationRepository } from 'prisma/repositories/notification/notification.repository';
-import { OneSignalNotificationRepository } from '../notifications/infrastructure/onesignal/onesignal-notification.repository';
+import { UserRepository } from '../../prisma/repositories/user/user.repository';
+import { NotificationRepository } from '../../prisma/repositories/notification/notification.repository';
 
 @Module({
   controllers: [RecipesController],
