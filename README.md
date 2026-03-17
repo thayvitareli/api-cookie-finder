@@ -14,7 +14,7 @@ Este projeto foi construído utilizando **Node.js** com o framework **NestJS**, 
 
 ### 🛠️ Tecnologias e Ferramentas
 - **Linguagem**: TypeScript
-- **Framework Web**: NestJS
+- **Framework**: NestJS
 - **Banco de Dados & ORM**: Prisma ORM (Mapeamento relacional)
 - **Autenticação**: JWT (JSON Web Tokens) e integração com Google Auth
 - **Armazenamento de Arquivos/Imagens**: Google Cloud Storage
