@@ -1,3 +1,106 @@
+# API Cookie Finder 
+
+Welcome to the **API Cookie Finder** repository, the backend of an application focused on sharing and discovering culinary recipes, posts, and social interactions among users.
+
+## 🏗️ Architecture Used
+
+This project was built using **Node.js** with the **NestJS** framework, adopting clean and modular design patterns to ensure scalability and easy maintenance.
+
+### Principles and Patterns
+- **Modular Design**: The application is divided into independent modules (Auth, Users, Recipes, Categories, Posts, Notifications, Storage).
+- **Use Cases Pattern**: The core business logic is isolated in Use Cases (e.g., `CreateRecipeUseCase`), separating it from Controllers.
+- **Repository Pattern**: The data persistence layer is abstracted using repositories, facilitating tests and potential database migrations.
+- **Queues and Background Processing**: Use of asynchronous Jobs (BullMQ + Redis) for tasks like sending notifications without blocking the main thread.
+
+### 🛠️ Technologies and Tools
+- **Language**: TypeScript
+- **Framework**: NestJS
+- **Database & ORM**: Prisma ORM (Relational mapping)
+- **Authentication**: JWT (JSON Web Tokens) and integration with Google Auth
+- **File/Image Storage**: Google Cloud Storage
+- **Messaging / Queues**: BullMQ operating with Redis
+- **Push Notifications**: OneSignal
+
+## ⚙️ Main Features
+
+The application works as a culinary social network where users can:
+- **Account Management**: Register using credentials or through Google.
+- **Profile and Social**: View profiles and follow/unfollow other cooks.
+- **Recipes**: Create new recipes with photo uploads, search, favorite, view listings, and evaluate/rate other users' recipes.
+- **Posts (Feed)**: Create posts (with images and tags), comment on posts, save posts to read later, and explore content on the platform.
+- **Categories**: Organize recipes through registered categories (e.g., Sweets, Savory, Vegan).
+- **Notifications**: Receive alerts of interactions through notifications (in-app listing and push).
+
+## 🚀 Endpoints / REST API
+
+Below are the main endpoints separated by domain (they require a JWT token in the Authorization header, except for naturally public routes like login and registration):
+
+### 🔐 Authentication (`/auth`)
+- `POST /auth/sign-in` : User authentication via email and password.
+- `POST /auth/google-login` : Authentication using a Google account.
+
+### 👤 Users (`/users`)
+- `POST /users/register` : Creates a new user account.
+- `GET /users/:id` : Returns the profile of a specific user.
+- `POST /users/:id/follow` : Follows a user.
+- `DELETE /users/:id/follow` : Unfollows a user.
+
+### 🍳 Recipes (`/recipes`)
+- `POST /recipes` : Creates a new recipe (supports image upload via `multipart/form-data`).
+- `GET /recipes` : List of all recipes (paginated).
+- `GET /recipes/me` : Lists the recipes created by the logged-in user.
+- `GET /recipes/me/favorites` : Lists the recipes favorited by the logged-in user.
+- `GET /recipes/:id` : Fetches the details of a specific recipe.
+- `POST /recipes/:id/favorite` : Favorites a recipe.
+- `DELETE /recipes/:id/favorite` : Removes a recipe from favorites.
+- `POST /recipes/:id/evaluate` : Evaluates (rates) a recipe.
+- `GET /recipes/:id/evaluations` : Lists the evaluations of a recipe.
+- `DELETE /recipes/:id` : Deletes a recipe owned by the user.
+
+### 📝 Posts (`/posts`)
+- `GET /posts` : List of posts (feed).
+- `POST /posts` : Creates a new post (supports image upload via `multipart/form-data`).
+- `GET /posts/:id` : Fetches the details of a post.
+- `GET /posts/saved` : Lists the posts saved by the logged-in user.
+- `GET /posts/tags` : Lists available tags for posts.
+- `POST /posts/:id/comments` : Adds a comment to a post.
+- `GET /posts/:id/comments` : Lists the comments of a post.
+- `POST /posts/:id/save` : Saves a post.
+- `DELETE /posts/:id/save` : Removes a post from saved.
+
+### 🏷️ Categories (`/categories`)
+- `GET /categories` : Lists available recipe categories.
+- `POST /categories` : Creates a new category (supports cover image upload).
+
+### 🔔 Notifications (`/notifications`)
+- `GET /notifications` : Lists the logged-in user's notifications.
+
+---
+
+## 🛠️ How to Run the Project Locally
+
+1. **Clone the repository and install dependencies:**
+   ```bash
+   npm install
+   ```
+2. **Environment Variables Configuration:**
+   Copy the `.env-example` file to `.env` and fill in the necessary keys (database, JWT, Redis, GCP, OneSignal).
+3. **Start the database and Redis (via Docker, if configured):**
+   ```bash
+   docker-compose up -d
+   ```
+4. **Run Prisma migrations:**
+   ```bash
+   npx prisma migrate dev
+   ```
+5. **Start the application:**
+   ```bash
+   npm run dev
+   ```
+The application will be running on the default NestJS port (usually `3000`).
+
+--------------------------------------------------------------------------------------------------------------------
+
 # API Cookie Finder
 
 Bem-vindo ao repositório do **API Cookie Finder**, o backend de uma aplicação focada no compartilhamento e descoberta de receitas culinárias, posts e interações sociais entre usuários.
@@ -99,105 +202,4 @@ Abaixo estão os principais endpoints separados por domínio (requerem token JWT
    ```
 A aplicação estará rodando na porta definida padrão do NestJS (geralmente `3000`).
 
----
 
-# API Cookie Finder (English translation)
-
-Welcome to the **API Cookie Finder** repository, the backend of an application focused on sharing and discovering culinary recipes, posts, and social interactions among users.
-
-## 🏗️ Architecture Used
-
-This project was built using **Node.js** with the **NestJS** framework, adopting clean and modular design patterns to ensure scalability and easy maintenance.
-
-### Principles and Patterns
-- **Modular Design**: The application is divided into independent modules (Auth, Users, Recipes, Categories, Posts, Notifications, Storage).
-- **Use Cases Pattern**: The core business logic is isolated in Use Cases (e.g., `CreateRecipeUseCase`), separating it from Controllers.
-- **Repository Pattern**: The data persistence layer is abstracted using repositories, facilitating tests and potential database migrations.
-- **Queues and Background Processing**: Use of asynchronous Jobs (BullMQ + Redis) for tasks like sending notifications without blocking the main thread.
-
-### 🛠️ Technologies and Tools
-- **Language**: TypeScript
-- **Web Framework**: NestJS
-- **Database & ORM**: Prisma ORM (Relational mapping)
-- **Authentication**: JWT (JSON Web Tokens) and integration with Google Auth
-- **File/Image Storage**: Google Cloud Storage
-- **Messaging / Queues**: BullMQ operating with Redis
-- **Push Notifications**: OneSignal
-
-## ⚙️ Main Features
-
-The application works as a culinary social network where users can:
-- **Account Management**: Register using credentials or through Google.
-- **Profile and Social**: View profiles and follow/unfollow other cooks.
-- **Recipes**: Create new recipes with photo uploads, search, favorite, view listings, and evaluate/rate other users' recipes.
-- **Posts (Feed)**: Create posts (with images and tags), comment on posts, save posts to read later, and explore content on the platform.
-- **Categories**: Organize recipes through registered categories (e.g., Sweets, Savory, Vegan).
-- **Notifications**: Receive alerts of interactions through notifications (in-app listing and push).
-
-## 🚀 Endpoints / REST API
-
-Below are the main endpoints separated by domain (they require a JWT token in the Authorization header, except for naturally public routes like login and registration):
-
-### 🔐 Authentication (`/auth`)
-- `POST /auth/sign-in` : User authentication via email and password.
-- `POST /auth/google-login` : Authentication using a Google account.
-
-### 👤 Users (`/users`)
-- `POST /users/register` : Creates a new user account.
-- `GET /users/:id` : Returns the profile of a specific user.
-- `POST /users/:id/follow` : Follows a user.
-- `DELETE /users/:id/follow` : Unfollows a user.
-
-### 🍳 Recipes (`/recipes`)
-- `POST /recipes` : Creates a new recipe (supports image upload via `multipart/form-data`).
-- `GET /recipes` : List of all recipes (paginated).
-- `GET /recipes/me` : Lists the recipes created by the logged-in user.
-- `GET /recipes/me/favorites` : Lists the recipes favorited by the logged-in user.
-- `GET /recipes/:id` : Fetches the details of a specific recipe.
-- `POST /recipes/:id/favorite` : Favorites a recipe.
-- `DELETE /recipes/:id/favorite` : Removes a recipe from favorites.
-- `POST /recipes/:id/evaluate` : Evaluates (rates) a recipe.
-- `GET /recipes/:id/evaluations` : Lists the evaluations of a recipe.
-- `DELETE /recipes/:id` : Deletes a recipe owned by the user.
-
-### 📝 Posts (`/posts`)
-- `GET /posts` : List of posts (feed).
-- `POST /posts` : Creates a new post (supports image upload via `multipart/form-data`).
-- `GET /posts/:id` : Fetches the details of a post.
-- `GET /posts/saved` : Lists the posts saved by the logged-in user.
-- `GET /posts/tags` : Lists available tags for posts.
-- `POST /posts/:id/comments` : Adds a comment to a post.
-- `GET /posts/:id/comments` : Lists the comments of a post.
-- `POST /posts/:id/save` : Saves a post.
-- `DELETE /posts/:id/save` : Removes a post from saved.
-
-### 🏷️ Categories (`/categories`)
-- `GET /categories` : Lists available recipe categories.
-- `POST /categories` : Creates a new category (supports cover image upload).
-
-### 🔔 Notifications (`/notifications`)
-- `GET /notifications` : Lists the logged-in user's notifications.
-
----
-
-## 🛠️ How to Run the Project Locally
-
-1. **Clone the repository and install dependencies:**
-   ```bash
-   npm install
-   ```
-2. **Environment Variables Configuration:**
-   Copy the `.env-example` file to `.env` and fill in the necessary keys (database, JWT, Redis, GCP, OneSignal).
-3. **Start the database and Redis (via Docker, if configured):**
-   ```bash
-   docker-compose up -d
-   ```
-4. **Run Prisma migrations:**
-   ```bash
-   npx prisma migrate dev
-   ```
-5. **Start the application:**
-   ```bash
-   npm run dev
-   ```
-The application will be running on the default NestJS port (usually `3000`).
