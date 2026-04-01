@@ -14,6 +14,8 @@ describe('ListPostCommentsUseCase', () => {
     findCommentsByPostId: findCommentsByPostId as any,
     findSavedPostsByUserId: jest.fn() as any,
     countSavedPostsByUserId: jest.fn() as any,
+    save: jest.fn() as any,
+    unsave: jest.fn() as any,
   };
 
   const useCase = new ListPostCommentsUseCase(repository);

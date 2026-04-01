@@ -47,9 +47,11 @@ describe('LoginUseCase', () => {
     expect(bcrypt.compare).toHaveBeenCalledWith('secret123', 'hashed');
     expect(jwtService.sign).toHaveBeenCalledWith({ userId: 'user-1' });
     expect(result).toEqual({
+      id: 'user-1',
       name: 'Ana',
       email: 'ana@example.com',
       access_token: 'token-123',
+      avatar_uri: undefined,
     });
   });
 

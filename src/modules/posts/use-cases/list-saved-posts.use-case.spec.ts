@@ -17,6 +17,8 @@ describe('ListSavedPostsUseCase', () => {
     findCommentsByPostId: jest.fn() as any,
     findSavedPostsByUserId: findSavedPostsByUserId as any,
     countSavedPostsByUserId: countSavedPostsByUserId as any,
+    save: jest.fn() as any,
+    unsave: jest.fn() as any,
   };
 
   const storage: IStorageProvider = {
