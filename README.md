@@ -31,6 +31,14 @@ The application works as a culinary social network where users can:
 - **Categories**: Organize recipes through registered categories (e.g., Sweets, Savory, Vegan).
 - **Notifications**: Receive alerts of interactions through notifications (in-app listing and push).
 
+## 🔄 CI/CD Pipeline (GitHub Actions)
+
+This project uses **GitHub Actions** for continuous integration to ensure code quality and stability. Every `push` or `pull request` to the `main` branch automatically triggers a workflow that:
+- Sets up the Node.js environment (v20.x).
+- Installs project dependencies.
+- Builds the application (`npm run build`).
+- Executes the automated test suite (`npm run test`).
+
 ## 🚀 Endpoints / REST API
 
 Below are the main endpoints separated by domain (they require a JWT token in the Authorization header, except for naturally public routes like login and registration):
@@ -133,6 +141,14 @@ A aplicação funciona como uma rede social de culinária onde os usuários pode
 - **Posts (Feed)**: Criar postagens (com imagens e tags), comentar em posts, salvar posts para ler depois e explorar conteúdo na plataforma.
 - **Categorias**: Organizar receitas através de categorias cadastradas (ex: Doces, Salgados, Vegano).
 - **Notificações**: Receber avisos de interações através de notificações (listagem in-app e push).
+
+## 🔄 Pipeline de CI/CD (GitHub Actions)
+
+Este projeto utiliza **GitHub Actions** para integração contínua, visando garantir a qualidade e a estabilidade do código. Todo `push` ou `pull request` para a branch `main` dispara automaticamente um workflow que:
+- Configura o ambiente Node.js (v20.x).
+- Instala as dependências do projeto.
+- Realiza o build da aplicação NestJS (`npm run build`).
+- Executa a suíte de testes automatizados (`npm run test`).
 
 ## 🚀 Endpoints / API REST
 
